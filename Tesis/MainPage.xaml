@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tesis.MainPage"
+             BackgroundColor="#F4F4F4">
+
+    <StackLayout Padding="20">
+
+        <!-- Encabezado principal dentro de un Frame -->
+        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="10" HasShadow="True">
+            <Label Text="¡Bienvenido a Xamarin.Forms!" 
+                   HorizontalTextAlignment="Center" 
+                   TextColor="White" 
+                   FontSize="30"
+                   FontAttributes="Bold"/>
+        </Frame>
+
+        <!-- Texto adicional -->
+        <Label Text="Comienza a desarrollar ahora" 
+               FontSize="Title" 
+               Padding="20, 10, 20, 10" 
+               HorizontalTextAlignment="Center" 
+               TextColor="#333"/>
+
+        <Label Text="Haz cambios en tu archivo XAML y guarda para ver las actualizaciones en la interfaz en tiempo real con XAML Hot Reload. ¡Inténtalo!" 
+               FontSize="16" 
+               Padding="20, 0, 20, 20" 
+               HorizontalTextAlignment="Center" 
+               TextColor="#666"/>
+
+        <!-- Enlace en formato texto -->
+        <Label FontSize="16" Padding="20, 24, 20, 0" HorizontalTextAlignment="Center">
+            <Label.FormattedText>
+                <FormattedString>
+                    <FormattedString.Spans>
+                        <Span Text="Aprende más en "/>
+                        <Span Text="https://aka.ms/xamarin-quickstart" FontAttributes="Bold" TextColor="#2196F3"/>
+                    </FormattedString.Spans>
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
+        <!-- Botón de Cerrar Sesión -->
+        <Button Text="Cerrar Sesión" 
+                BackgroundColor="#FF5252" 
+                TextColor="White" 
+                FontSize="18"
+                Padding="12"
+                CornerRadius="5"
+                HorizontalOptions="Center"
+                Clicked="LogoutButton_Clicked"/>
+
+    </StackLayout>
+
+</ContentPage>

@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tesis.Views.RegisterPage"
+             BackgroundColor="#f0f0f0">
+
+    <StackLayout VerticalOptions="Center" Padding="30">
+        <Label Text="Registrarse" 
+               FontSize="32" 
+               FontAttributes="Bold" 
+               HorizontalOptions="Center" 
+               Margin="0,0,0,20"/>
+
+        <Frame BackgroundColor="White" 
+               Margin="0,0,0,10"
+               CornerRadius="5" 
+               HasShadow="True">
+            <Entry x:Name="txtNombre"  
+                Placeholder="Nombre" Text="{Binding Nombre}"
+                TextColor="#333" 
+                HeightRequest="50"/>
+        </Frame>
+
+        <Frame BackgroundColor="White" 
+               Margin="0,0,0,10"
+               CornerRadius="5" 
+               HasShadow="True">
+            <Entry x:Name="txtApellido"  
+                Placeholder="Apellido" Text="{Binding Apellido}"
+                TextColor="#333" 
+                HeightRequest="50"/>
+        </Frame>
+
+        <Frame BackgroundColor="White" 
+               Margin="0,0,0,10"
+               CornerRadius="5" 
+               HasShadow="True">
+            <Entry x:Name="txtTelefono"  
+                Placeholder="Telefono" Text="{Binding Telefono}"
+                TextColor="#333" 
+                HeightRequest="50"/>
+        </Frame>
+
+
+        <Frame BackgroundColor="White" 
+               Margin="0,0,0,10"
+               CornerRadius="5" 
+               HasShadow="True">
+            <Entry x:Name="txtEmail"  
+                   Placeholder="Correo Electrónico" Text="{Binding Correo}"
+                   TextColor="#333" 
+                   HeightRequest="50"/>
+        </Frame>
+
+        <Frame BackgroundColor="White" 
+               Margin="0,0,0,10"
+               CornerRadius="5" 
+               HasShadow="True">
+            <Entry x:Name="txtPassword" 
+                   Placeholder="Contraseña" Text="{Binding Contraseña}"
+                   IsPassword="True" 
+                   TextColor="#333" 
+                   HeightRequest="50"/>
+        </Frame>
+
+        <Picker Title="Seleccionar perfil"
+            ItemsSource="{Binding TiposDePerfil}"
+            SelectedItem="{Binding TipoPerfil}"
+            TextColor="#333"
+            Margin="0,0,0,10"
+            HeightRequest="50"/>
+
+        <Button Text="Registrarse" 
+                BackgroundColor="#007AFF" 
+                TextColor="White" 
+                FontSize="18" 
+                Margin="0,20,0,0" 
+                CornerRadius="5"
+                Command="{Binding RegisterCommand}"/>
+    </StackLayout>
+</ContentPage> 

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="Tesis.MainFlyoutPage"
+            BackgroundColor="#F4F4F4">
+
+    <!-- Menú de navegación (Flyout) -->
+    <FlyoutPage.Flyout>
+        <ContentPage Title="Menú">
+            <StackLayout Padding="10">
+                <Button Text="Cerrar sesión" 
+                        Clicked= "OnLogoutClicked" 
+                        Padding="10" 
+                        BackgroundColor="#FF5252" 
+                        TextColor="White" />
+            </StackLayout>
+        </ContentPage>
+    </FlyoutPage.Flyout>
+
+    <!-- Detalle (contenido principal) -->
+    <FlyoutPage.Detail>
+        <NavigationPage>
+            <x:Arguments>
+                <ContentPage Title="Página Principal">
+                    <StackLayout Padding="20">
+                        <Label Text="Bienvenido a la aplicación!"
+                               HorizontalTextAlignment="Center"
+                               FontSize="20"/>
+                    </StackLayout>
+                </ContentPage>
+            </x:Arguments>
+        </NavigationPage>
+    </FlyoutPage.Detail>
+
+</FlyoutPage>
