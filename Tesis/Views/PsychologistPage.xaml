@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Tesis.Views.PsychologistPage"
+             Title="Panel de Psicólogo">
+
+    <ContentPage.Content>
+        <StackLayout Padding="20" Spacing="15">
+            <!-- Título -->
+            <Label Text="Notificaciones de Riesgo"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#6200EE" />
+
+            <!-- Lista de notificaciones -->
+            <ListView x:Name="NotificacionesListView"
+                      ItemsSource="{Binding Notificaciones}"
+                      HasUnevenRows="True"
+                      SelectionMode="Single"
+                     >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Estudiante}"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#333333" />
+                                <Label Text="{Binding Mensaje}"
+                                       FontSize="14"
+                                       TextColor="#666666" />
+                                <Label Text="{Binding FechaHora}"
+                                       FontSize="12"
+                                       TextColor="#888888" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!-- Botón para ver estadísticas (opcional) -->
+            <Button Text="Ver estadísticas"
+                    Command="{Binding VerEstadisticasCommand}"
+                    BackgroundColor="#6200EE"
+                    TextColor="White"
+                    CornerRadius="25"
+                    HeightRequest="50" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

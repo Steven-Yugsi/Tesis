@@ -3,6 +3,56 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tesis.App">
     <Application.Resources>
+        <!-- Colores -->
+        <Color x:Key="PrimaryBackgroundColor">#ADD8E6</Color>
+        <!-- Azul celeste pastel -->
+        <Color x:Key="PrimaryTextColor">#000000</Color>
+        <!-- Negro -->
+        <Color x:Key="SecondaryTextColor">#363636</Color>
+        <!-- Gris oscuro suave -->
+        <Color x:Key="ContainerBackgroundColor">#FFFFFF</Color>
+        <!-- Blanco -->
+        <Color x:Key="ContainerBorderColor">#D3D3D3</Color>
+        <!-- Gris claro -->
 
+        <!-- Estilos -->
+
+        <!-- Estilo para etiquetas principales -->
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+        </Style>
+
+        <!-- Estilo para marcos -->
+        <Style x:Key="FrameStyle" TargetType="Frame">
+            <Setter Property="BackgroundColor" Value="{StaticResource ContainerBackgroundColor}" />
+            <Setter Property="BorderColor" Value="{StaticResource ContainerBorderColor}" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="HasShadow" Value="True" />
+            <Setter Property="Padding" Value="10" />
+        </Style>
+
+        <!-- Estilo para entradas de texto -->
+        <Style x:Key="EntryStyle" TargetType="Entry">
+            <Setter Property="BackgroundColor" Value="White" />
+            <Setter Property="TextColor" Value="{StaticResource SecondaryTextColor}" />
+            <Setter Property="PlaceholderColor" Value="#999999" />
+            <Setter Property="FontSize" Value="18" />
+        </Style>
+
+        <!-- Botón Principal -->
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryTextColor}" />
+            <!-- Negro -->
+            <Setter Property="TextColor" Value="White" />
+            <!-- Texto blanco para contraste -->
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="CornerRadius" Value="25" />
+            <Setter Property="HeightRequest" Value="50" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="Margin" Value="10,5" />
+        </Style>
     </Application.Resources>
 </Application>

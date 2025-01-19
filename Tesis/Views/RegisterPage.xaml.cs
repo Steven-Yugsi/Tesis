@@ -14,8 +14,10 @@ namespace Tesis.Views
     {
         public RegisterPage()
         {
-            InitializeComponent();
-            BindingContext = new UsuarioViewModel();
+            InitializeComponent();            
+            BindingContext = new RegisterViewModel(); // Esto debe estar antes de InitializeComponent()
+
+
         }
     }
 }

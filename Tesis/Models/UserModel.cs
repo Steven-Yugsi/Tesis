@@ -8,5 +8,6 @@ namespace Tesis.Models
     {
         public string EmailField { get; set; }
         public string PasswordField { get; set; }
+        public string ProfileImageUrl { get; set; }
     }
 }

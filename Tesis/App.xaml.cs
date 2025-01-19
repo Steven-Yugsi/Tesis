@@ -1,6 +1,10 @@
 ﻿using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using Firebase.Database;
+using System.Threading.Tasks;
+using Tesis.Views;
+using Firebase.Database.Query;
+using Xamarin.Essentials;
 
 namespace Tesis
 {
@@ -13,10 +17,6 @@ namespace Tesis
             MainPage = new NavigationPage(new LoginPage());
         }
 
-        protected override void OnStart()
-        {
-        }
-
         protected override void OnSleep()
         {
         }
@@ -25,4 +25,5 @@ namespace Tesis
         {
         }
     }
+
 }

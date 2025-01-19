@@ -2,80 +2,172 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tesis.Views.RegisterPage"
-             BackgroundColor="#f0f0f0">
+             BackgroundColor="#F0F8FF">
 
-    <StackLayout VerticalOptions="Center" Padding="30">
-        <Label Text="Registrarse" 
-               FontSize="32" 
-               FontAttributes="Bold" 
-               HorizontalOptions="Center" 
-               Margin="0,0,0,20"/>
+    <!-- Fondo con gradiente -->
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+            <GradientStop Color="#ADD8E6" Offset="0" />
+            <GradientStop Color="#87CEFA" Offset="1" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
-        <Frame BackgroundColor="White" 
-               Margin="0,0,0,10"
-               CornerRadius="5" 
-               HasShadow="True">
-            <Entry x:Name="txtNombre"  
-                Placeholder="Nombre" Text="{Binding Nombre}"
-                TextColor="#333" 
-                HeightRequest="50"/>
-        </Frame>
+    <ScrollView Padding="20">
+        <StackLayout VerticalOptions="Center" Spacing="15">
 
-        <Frame BackgroundColor="White" 
-               Margin="0,0,0,10"
-               CornerRadius="5" 
-               HasShadow="True">
-            <Entry x:Name="txtApellido"  
-                Placeholder="Apellido" Text="{Binding Apellido}"
-                TextColor="#333" 
-                HeightRequest="50"/>
-        </Frame>
+            <!-- Título con más estilo -->
+            <Label Text="Registrarse"
+                   FontSize="36"
+                   FontAttributes="Bold"
+                   TextColor="#4A4A4A"
+                   HorizontalOptions="Center"
+                   Margin="0,20,0,10" />
 
-        <Frame BackgroundColor="White" 
-               Margin="0,0,0,10"
-               CornerRadius="5" 
-               HasShadow="True">
-            <Entry x:Name="txtTelefono"  
-                Placeholder="Telefono" Text="{Binding Telefono}"
-                TextColor="#333" 
-                HeightRequest="50"/>
-        </Frame>
+            <!-- Nombre -->
+            <Label Text="Nombre"
+                   FontSize="18"
+                   TextColor="#4A4A4A"
+                   Margin="0,0,0,5"/>
+            <Frame BackgroundColor="#FFFFFF" CornerRadius="10" HasShadow="True" BorderColor="#B0E0E6" Padding="10">
+                <Entry Placeholder="Introduce tu nombre"
+                       Text="{Binding Usuario.Nombre}"
+                       TextColor="#363636"
+                       FontSize="16"
+                       Margin="5,0"
+                       HeightRequest="50"
+                       Keyboard="Default"
+                       ReturnType="Done" />
+            </Frame>
 
+            <!-- Apellido -->
+            <Label Text="Apellido"
+                   FontSize="18"
+                   TextColor="#4A4A4A"
+                   Margin="0,0,0,5"/>
+            <Frame BackgroundColor="#FFFFFF" CornerRadius="10" HasShadow="True" BorderColor="#B0E0E6" Padding="10">
+                <Entry Placeholder="Introduce tu apellido"
+                       Text="{Binding Usuario.Apellido}"
+                       TextColor="#363636"
+                       FontSize="16"
+                       Margin="5,0"
+                       HeightRequest="50"
+                       Keyboard="Default"
+                       ReturnType="Done" />
+            </Frame>
 
-        <Frame BackgroundColor="White" 
-               Margin="0,0,0,10"
-               CornerRadius="5" 
-               HasShadow="True">
-            <Entry x:Name="txtEmail"  
-                   Placeholder="Correo Electrónico" Text="{Binding Correo}"
-                   TextColor="#333" 
-                   HeightRequest="50"/>
-        </Frame>
+            <!-- Teléfono -->
+            <Label Text="Teléfono"
+                   FontSize="18"
+                   TextColor="#4A4A4A"
+                   Margin="0,0,0,5"/>
+            <Frame BackgroundColor="#FFFFFF" CornerRadius="10" HasShadow="True" BorderColor="#B0E0E6" Padding="10">
+                <Entry Placeholder="Introduce tu teléfono"
+                       Text="{Binding Usuario.Telefono}"
+                       TextColor="#363636"
+                       FontSize="16"
+                       Margin="5,0"
+                       HeightRequest="50"
+                       Keyboard="Telephone" />
+            </Frame>
 
-        <Frame BackgroundColor="White" 
-               Margin="0,0,0,10"
-               CornerRadius="5" 
-               HasShadow="True">
-            <Entry x:Name="txtPassword" 
-                   Placeholder="Contraseña" Text="{Binding Contraseña}"
-                   IsPassword="True" 
-                   TextColor="#333" 
-                   HeightRequest="50"/>
-        </Frame>
+            <!-- Correo Electrónico -->
+            <Label Text="Correo Electrónico"
+                   FontSize="18"
+                   TextColor="#4A4A4A"
+                   Margin="0,0,0,5"/>
+            <Frame BackgroundColor="#FFFFFF" CornerRadius="10" HasShadow="True" BorderColor="#B0E0E6" Padding="10">
+                <Entry Placeholder="Introduce tu correo electrónico"
+                       Text="{Binding Usuario.Correo}"
+                       TextColor="#363636"
+                       FontSize="16"
+                       Margin="5,0"
+                       HeightRequest="50"
+                       Keyboard="Email" />
+            </Frame>
 
-        <Picker Title="Seleccionar perfil"
-            ItemsSource="{Binding TiposDePerfil}"
-            SelectedItem="{Binding TipoPerfil}"
-            TextColor="#333"
-            Margin="0,0,0,10"
-            HeightRequest="50"/>
+            <!-- Contraseña -->
+            <Label Text="Contraseña"
+                   FontSize="18"
+                   TextColor="#4A4A4A"
+                   Margin="0,0,0,5"/>
+            <Frame BackgroundColor="#FFFFFF" CornerRadius="10" HasShadow="True" BorderColor="#B0E0E6" Padding="10">
+                <Entry Placeholder="Introduce tu contraseña"
+                       Text="{Binding Usuario.Contraseña}"
+                       IsPassword="True"
+                       TextColor="#363636"
+                       FontSize="16"
+                       Margin="5,0"
+                       HeightRequest="50" />
+            </Frame>
 
-        <Button Text="Registrarse" 
-                BackgroundColor="#007AFF" 
-                TextColor="White" 
-                FontSize="18" 
-                Margin="0,20,0,0" 
-                CornerRadius="5"
-                Command="{Binding RegisterCommand}"/>
-    </StackLayout>
-</ContentPage> 
+            <!-- Imagen Circular con borde más suave -->
+            <StackLayout HorizontalOptions="Center" Spacing="10" Margin="0,20,0,20">
+                <Frame BackgroundColor="#FFFFFF"
+                       CornerRadius="50"
+                       Padding="3"
+                       HasShadow="True"
+                       WidthRequest="100"
+                       HeightRequest="100"
+                       BorderColor="#B0E0E6"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center">
+                    <Image WidthRequest="100"
+                           HeightRequest="100"
+                           Aspect="AspectFill"
+                           Source="{Binding ProfileImage}" />
+                </Frame>
+                <Button Text="Seleccionar Imagen"
+                        BackgroundColor="#FFFFFF"
+                        TextColor="#4A4A4A"
+                        FontSize="16"
+                        CornerRadius="25"
+                        HeightRequest="40"
+                        Command="{Binding SelectImageCommand}"
+                        BorderColor="#B0E0E6" />
+            </StackLayout>
+
+            <!-- Selección de Perfil con estilo -->
+            <Label Text="Seleccionar Perfil"
+                   FontSize="18"
+                   TextColor="#4A4A4A"
+                   Margin="0,0,0,5"/>
+            <Frame BackgroundColor="#FFFFFF" CornerRadius="10" HasShadow="True" BorderColor="#B0E0E6" Padding="10">
+                <Picker Title="Seleccionar Perfil"
+                        ItemsSource="{Binding TiposDePerfil}"
+                        SelectedItem="{Binding Usuario.TipoPerfil}"
+                        TextColor="#363636"
+                        FontSize="16"
+                        HeightRequest="50" />
+            </Frame>
+
+            <!-- Botón Registrar con estilo -->
+            <Button Text="Registrarse"
+                    BackgroundColor="#1E90FF"
+                    TextColor="#FFFFFF"
+                    FontSize="20"
+                    CornerRadius="25"
+                    HeightRequest="50"
+                    Command="{Binding RegisterCommand}"
+                    BorderColor="#B0E0E6"
+                    Margin="0,30,0,0"
+                    HorizontalOptions="FillAndExpand">
+
+                <!-- Trigger para manejar el cambio de color al presionar el botón -->
+                <Button.Triggers>
+                    <!-- Evento Pressed -->
+                    <DataTrigger TargetType="Button" Binding="{Binding IsPressed}" Value="True">
+                        <Setter Property="BackgroundColor" Value="#4682B4" />
+                        <Setter Property="TextColor" Value="#FFFFFF" />
+                    </DataTrigger>
+
+                    <!-- Evento Released -->
+                    <DataTrigger TargetType="Button" Binding="{Binding IsPressed}" Value="False">
+                        <Setter Property="BackgroundColor" Value="#1E90FF" />
+                        <Setter Property="TextColor" Value="#FFFFFF" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

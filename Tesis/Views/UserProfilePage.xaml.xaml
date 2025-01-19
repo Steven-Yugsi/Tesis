@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tesis.Views.UserProfilePage"
+             Title="Perfil de Usuario"
+             BackgroundColor="{StaticResource PrimaryBackgroundColor}">
+
+    <ContentPage.Resources>
+        <!-- Estilos específicos -->
+        <Style x:Key="ProfileInfoLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextColor" Value="{StaticResource SecondaryTextColor}" />
+        </Style>
+
+        <Style x:Key="ProfileValueLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}" />
+        </Style>
+
+        <Style x:Key="ProfileCard" TargetType="Frame">
+            <Setter Property="BackgroundColor" Value="{StaticResource ContainerBackgroundColor}" />
+            <Setter Property="CornerRadius" Value="15" />
+            <Setter Property="HasShadow" Value="True" />
+            <Setter Property="Padding" Value="15" />
+            <Setter Property="Margin" Value="10" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+
+            <!-- Foto del Usuario -->
+            <Frame CornerRadius="75" HeightRequest="150" WidthRequest="150" HorizontalOptions="Center" Padding="0" IsClippedToBounds="True">
+                <Image Source="{Binding ImagenUrl}" Aspect="AspectFill" />
+            </Frame>
+
+            <!-- Nombre del Usuario -->
+            <Label Text="{Binding Nombre}" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" 
+                   TextColor="{StaticResource PrimaryTextColor}" />
+
+            <!-- Información del Usuario -->
+            <Frame Style="{StaticResource ProfileCard}">
+                <StackLayout Spacing="10">
+                    <Label Text="Correo" Style="{StaticResource ProfileInfoLabel}" />
+                    <Label Text="{Binding Correo}" Style="{StaticResource ProfileValueLabel}" />
+
+                    <Label Text="Teléfono" Style="{StaticResource ProfileInfoLabel}" />
+                    <Label Text="{Binding Telefono}" Style="{StaticResource ProfileValueLabel}" />
+
+                    <Label Text="Apellido" Style="{StaticResource ProfileInfoLabel}" />
+                    <Label Text="{Binding Apellido}" Style="{StaticResource ProfileValueLabel}" />
+                </StackLayout>
+            </Frame>
+
+            <!-- Botón de Acción -->
+            <Button Text="Editar Perfil" 
+                    Style="{StaticResource PrimaryButtonStyle}" 
+                    HorizontalOptions="Center" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

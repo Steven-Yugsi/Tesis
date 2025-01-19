@@ -1,0 +1,60 @@
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tesis.Views.AdministrarRolesPage"
+             Title="Administrar Roles"
+             BackgroundColor="#ADD8E6">
+    <!-- Fondo azul celeste pastel -->
+
+    <ContentPage.Content>
+        <StackLayout Padding="20" Spacing="15">
+            <!-- Título Principal -->
+            <Label Text="Lista de Roles"
+                   FontSize="30"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#000000" />
+            <!-- Texto en negro -->
+
+            <!-- Subtítulo -->
+            <Label Text="Revisa los roles disponibles en el sistema"
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   TextColor="#363636" />
+            <!-- Texto en gris oscuro suave -->
+
+            <!-- Lista de Roles -->
+            <CollectionView ItemsSource="{Binding Roles}"
+                            BackgroundColor="Transparent"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Style="{StaticResource FrameStyle}" 
+                               BorderColor="#000000" 
+                            Padding="10"
+                               Margin="0,5">
+                            <StackLayout Orientation="Vertical" Spacing="5">
+                                <!-- Nombre del Rol -->
+                                <Label Text="{Binding Nombre}" 
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#000000" />
+                                <!-- Texto en negro -->
+
+                                <!-- Descripción del Rol -->
+                                <Label Text="{Binding Descripcion}" 
+                                       FontSize="16"
+                                       TextColor="#363636" />
+                                <!-- Texto en gris oscuro suave -->
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Botón para Agregar Roles -->
+            <Button Text="Agregar Rol"
+                    Clicked="OnCrearRolesClicked"
+                    Style="{StaticResource PrimaryButtonStyle}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

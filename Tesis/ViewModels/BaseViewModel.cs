@@ -2,56 +2,33 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 using Xamarin.Forms;
 
 namespace Tesis.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        // Evento para notificar cambios de propiedades
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public INavigation Navigation;
+        // INavigation para navegación en ViewModels
+        public INavigation Navigation { get; set; }
 
+        // Método para notificar cambios en una propiedad
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-
         {
-
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
         }
-        protected void SetValue<T>(ref T backingFieled, T value, [CallerMemberName] string propertyName = null)
 
+        // Método genérico para establecer un valor y notificar el cambio
+        protected bool SetValue<T>(ref T backingField, T value, [CallerMemberName] string propertyName = null)
         {
+            if (EqualityComparer<T>.Default.Equals(backingField, value))
+                return false;
 
-            if (EqualityComparer<T>.Default.Equals(backingFieled, value))
-
-            {
-
-                return;
-
-            }
-
-            backingFieled = value;
-
+            backingField = value;
             OnPropertyChanged(propertyName);
-
-        }
-
-        protected virtual void OnPropertyChangeds([CallerMemberName] string propertyName = null)
-
-        {
-
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-
-            {
-
-                handler(this, new PropertyChangedEventArgs(propertyName));
-
-            }
-
+            return true;
         }
     }
 }

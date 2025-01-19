@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Tesis.ViewModels;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Tesis
+namespace Tesis.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class PsychologistMainPage : ContentPage
     {
-        public LoginPage()
+        public PsychologistMainPage()
         {
             InitializeComponent();
-            BindingContext = new LoginViewModel(Navigation);
         }
-
     }
-
 }

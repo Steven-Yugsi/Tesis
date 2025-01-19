@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Tesis.ViewModels"
+             x:Class="Tesis.Views.CrearRolesPage"
+             Title="Crear Rol"
+             BackgroundColor="{StaticResource PrimaryBackgroundColor}">
+
+    <ContentPage.Content>
+        <StackLayout Padding="20" Spacing="25">
+
+            <!-- Título -->
+            <Label Text="¡Crea un Nuevo Rol!"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{StaticResource PrimaryTextColor}" />
+
+            <!-- Icono decorativo -->
+            <Image Source="roles.png" 
+                   HeightRequest="120"
+                   HorizontalOptions="Center" />
+
+            <!-- Entrada para el Nombre del Rol -->
+            <Frame Style="{StaticResource FrameStyle}" BorderColor="{StaticResource PrimaryTextColor}">
+                <StackLayout>
+                    <Label Text="Nombre del Rol"
+                           FontSize="16"
+                           TextColor="{StaticResource SecondaryTextColor}" />
+                    <Entry Placeholder="Escribe el nombre aquí"
+                           Text="{Binding NombreRol}"
+                           Style="{StaticResource EntryStyle}" />
+                </StackLayout>
+            </Frame>
+
+            <!-- Entrada para la Descripción del Rol -->
+            <Frame Style="{StaticResource FrameStyle}" BorderColor="{StaticResource PrimaryTextColor}">
+                <StackLayout>
+                    <Label Text="Descripción del Rol"
+                           FontSize="16"
+                           TextColor="{StaticResource SecondaryTextColor}" />
+                    <Entry Placeholder="Escribe una descripción aquí"
+                           Text="{Binding DescripcionRol}"
+                           Style="{StaticResource EntryStyle}" />
+                </StackLayout>
+            </Frame>
+
+            <!-- Botón para crear el rol -->
+            <Button Text="Crear Rol"
+                    Command="{Binding CrearRolCommand}"
+                    Style="{StaticResource PrimaryButtonStyle}" />
+
+            <!-- Mensaje decorativo -->
+            <Label Text="¡Haz que el rol sea especial!"
+                   FontSize="14"
+                   TextColor="{StaticResource SecondaryTextColor}"
+                   HorizontalOptions="Center"
+                   FontAttributes="Italic" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

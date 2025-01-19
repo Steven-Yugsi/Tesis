@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Tesis.Views.StudentPage"
+             Title="Chat para Estudiantes">
+
+    <ContentPage.Content>
+        <StackLayout Padding="20" Spacing="15">
+            <!-- Título -->
+            <Label Text="Chat de Apoyo"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#6200EE" />
+
+            <!-- Conversación -->
+            <ScrollView>
+                <StackLayout x:Name="ChatStack"
+                             Padding="10"
+                             Spacing="10">
+                    <!-- Mensajes irán aquí -->
+                    <Label Text="(Mensajes del chat se mostrarán aquí)"
+                           FontSize="14"
+                           TextColor="#666666"
+                           HorizontalOptions="Center" />
+                </StackLayout>
+            </ScrollView>
+
+            <!-- Entrada para enviar mensajes -->
+            <StackLayout Orientation="Horizontal" Padding="10">
+                <Entry x:Name="MessageEntry"
+                       Placeholder="Escribe tu mensaje..."
+                       HorizontalOptions="FillAndExpand" />
+                <Button Text="Enviar"
+                        Command="{Binding EnviarMensajeCommand}"
+                        BackgroundColor="#6200EE"
+                        TextColor="White"
+                        CornerRadius="25"
+                        WidthRequest="80" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
