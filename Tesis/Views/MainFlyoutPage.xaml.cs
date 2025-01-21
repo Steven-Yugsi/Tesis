@@ -127,7 +127,7 @@ namespace Tesis.Views
                     SecureStorage.Remove("firebase_token");
 
                     // Redirigir a la pantalla de inicio de sesión
-                    Application.Current.MainPage = new LoginPage();
+                    Application.Current.MainPage = new NavigationPage(new LoginPage());
                 }
                 catch (Exception ex)
                 {

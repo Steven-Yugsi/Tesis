@@ -36,7 +36,8 @@
                        Margin="5,0"
                        HeightRequest="50"
                        Keyboard="Default"
-                       ReturnType="Done" />
+                       ReturnType="Done"
+                       TextChanged="OnNameTextChanged"/>
             </Frame>
 
             <!-- Apellido -->
@@ -52,7 +53,8 @@
                        Margin="5,0"
                        HeightRequest="50"
                        Keyboard="Default"
-                       ReturnType="Done" />
+                       ReturnType="Done"
+                       TextChanged="OnNameTextChanged"/>
             </Frame>
 
             <!-- Teléfono -->
@@ -67,7 +69,8 @@
                        FontSize="16"
                        Margin="5,0"
                        HeightRequest="50"
-                       Keyboard="Telephone" />
+                       Keyboard="Telephone"
+                       TextChanged="OnPhoneTextChanged"/>
             </Frame>
 
             <!-- Correo Electrónico -->

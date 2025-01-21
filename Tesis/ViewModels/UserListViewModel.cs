@@ -12,8 +12,10 @@ namespace Tesis.ViewModels
 {
     public class UserListViewModel : BaseViewModel
     {
+        // Observable collection de usuarios
         public ObservableCollection<MUsuarios> Usuarios { get; set; } = new ObservableCollection<MUsuarios>();
 
+        // Observable collection de tipos de perfil
         private ObservableCollection<string> tiposDePerfil = new ObservableCollection<string>();
         public ObservableCollection<string> TiposDePerfil
         {
@@ -21,14 +23,19 @@ namespace Tesis.ViewModels
             set => SetValue(ref tiposDePerfil, value);
         }
 
+        // Comando para cargar usuarios
         public Command CargarUsuariosCommand { get; set; }
 
         public UserListViewModel()
         {
+            // Cargar usuarios al iniciar
             CargarUsuariosCommand = new Command(async () => await CargarUsuariosAsync());
+
+            // Cargar tipos de perfil
             MainThread.InvokeOnMainThreadAsync(async () => await CargarTiposDePerfilAsync());
         }
 
+        // Cargar usuarios desde Firebase
         public async Task CargarUsuariosAsync()
         {
             try
@@ -47,6 +54,7 @@ namespace Tesis.ViewModels
                     {
                         var nuevoUsuario = usuarioData.ToObject<MUsuarios>();
 
+                        // Verifica que el usuario tenga los datos necesarios
                         if (!string.IsNullOrEmpty(nuevoUsuario.Nombre) &&
                             !string.IsNullOrEmpty(nuevoUsuario.Apellido) &&
                             !string.IsNullOrEmpty(nuevoUsuario.TipoPerfil))
@@ -61,9 +69,11 @@ namespace Tesis.ViewModels
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al cargar los usuarios: {ex.Message}");
+                await App.Current.MainPage.DisplayAlert("Error", "No se pudieron cargar los usuarios desde el servidor.", "Aceptar");
             }
         }
 
+        // Cargar tipos de perfil (roles) desde Firebase
         public async Task CargarTiposDePerfilAsync()
         {
             try
@@ -72,6 +82,7 @@ namespace Tesis.ViewModels
                     .Child("Roles")
                     .OnceAsync<dynamic>();
 
+                // Actualizar la lista de tipos de perfil en el hilo principal
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     TiposDePerfil.Clear();
@@ -93,6 +104,7 @@ namespace Tesis.ViewModels
             }
         }
 
+        // Método para actualizar el tipo de perfil de un usuario
         public async Task ActualizarTipoPerfilAsync(MUsuarios usuario, string nuevoTipoPerfil)
         {
             if (usuario == null || string.IsNullOrEmpty(nuevoTipoPerfil))
@@ -100,13 +112,13 @@ namespace Tesis.ViewModels
 
             try
             {
-                // Actualiza en Firebase
+                // Actualizar en Firebase
                 await Conexionfirebase.firebase
                     .Child("Usuarios")
                     .Child(usuario.Id_User)
                     .PatchAsync(new { TipoPerfil = nuevoTipoPerfil });
 
-                // Actualiza localmente
+                // Actualizar localmente
                 usuario.TipoPerfil = nuevoTipoPerfil;
                 Console.WriteLine($"Tipo de perfil actualizado para {usuario.NombreCompleto} a {nuevoTipoPerfil}");
 

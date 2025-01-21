@@ -1,11 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:Tesis.ViewModels"
              x:Class="Tesis.Views.UserListPage"
              Title="Usuarios"
              BackgroundColor="#ADD8E6"
              x:Name="UserListPage1">
-    <!-- Agregado x:Name -->
+
+    <!-- BindingContext asignado desde el ViewModel -->
+    <ContentPage.BindingContext>
+        <local:UserListViewModel />
+    </ContentPage.BindingContext>
 
     <ContentPage.Content>
         <ScrollView Padding="20">
@@ -25,6 +29,7 @@
                        HorizontalOptions="Center"
                        TextColor="#363636" />
 
+                <!-- CollectionView para listar usuarios -->
                 <CollectionView ItemsSource="{Binding Usuarios}"
                                 BackgroundColor="Transparent"
                                 SelectionMode="None">
@@ -57,16 +62,17 @@
                                                FontSize="14"
                                                TextColor="#000000" />
 
-                                        <!-- Picker sin selección inicial -->
-                                        <Picker 
+                                        <!-- Picker para seleccionar el tipo de perfil -->
+                                        <Picker x:Name="TipoPerfilPicker"
                                                 Title="Seleccionar Perfil"
                                                 ItemsSource="{Binding Source={x:Reference UserListPage1}, Path=BindingContext.TiposDePerfil}"
                                                 SelectedItem="{Binding TipoPerfil, Mode=TwoWay}"
+                                                SelectedIndexChanged="OnTipoPerfilChanged"
                                                 TextColor="#363636"
                                                 FontSize="14"
                                                 HeightRequest="50"
-                                                >
-                                        </Picker>
+                                                />
+
                                     </StackLayout>
                                 </StackLayout>
                             </Frame>

@@ -19,8 +19,6 @@ namespace Tesis.Views
             InitializeComponent();
             var viewModel = new UserProfileViewModel();
             BindingContext = viewModel;
-
-
             // Cargar datos del usuario (asegúrate de que LoadUserData sea un método asíncrono en tu ViewModel)
             _ = LoadUserDataAsync(viewModel, userId);
         }

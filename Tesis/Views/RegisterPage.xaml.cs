@@ -19,5 +19,34 @@ namespace Tesis.Views
 
 
         }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            NavigationPage.SetHasNavigationBar(this, false);
+        }
+        private void OnNameTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var entry = (Entry)sender;
+            string newText = e.NewTextValue;
+
+            // Permitir solo letras y espacios
+            if (!string.IsNullOrEmpty(newText))
+            {
+                entry.Text = new string(newText.Where(c => char.IsLetter(c) || char.IsWhiteSpace(c)).ToArray());
+            }
+        }
+
+        // Método para validar el teléfono
+        private void OnPhoneTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var entry = (Entry)sender;
+            string newText = e.NewTextValue;
+
+            // Permitir solo números y limitar a 10 caracteres
+            if (!string.IsNullOrEmpty(newText))
+            {
+                entry.Text = new string(newText.Where(char.IsDigit).Take(10).ToArray());
+            }
+        }
     }
 }
