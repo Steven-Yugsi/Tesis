@@ -66,7 +66,14 @@ namespace Tesis.ViewModels
                     {
                         if (role.Object != null && role.Object.Nombre != null)
                         {
-                            TiposDePerfil.Add(role.Object.Nombre.ToString());
+                            string nombreRol = role.Object.Nombre.ToString();
+
+                            // Excluir el rol "Administrador"
+                            if (!nombreRol.Equals("Administrador", StringComparison.OrdinalIgnoreCase) &&
+                                !nombreRol.Equals("Psicologo", StringComparison.OrdinalIgnoreCase))
+                            {
+                                TiposDePerfil.Add(nombreRol);
+                            }
                         }
                         else
                         {
@@ -285,7 +292,7 @@ namespace Tesis.ViewModels
                     .Child(Usuario.Id_User)
                     .PutAsync(Usuario);
 
-                
+
                 Usuario = new MUsuarios();
                 ProfileImage = null;
 

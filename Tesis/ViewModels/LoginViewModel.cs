@@ -1,4 +1,5 @@
 ﻿using Firebase.Auth;
+using Firebase.Database.Query;
 using Newtonsoft.Json;
 using System;
 using System.Text.RegularExpressions;
@@ -19,7 +20,7 @@ namespace Tesis.ViewModels
         private bool isPasswordVisible;  // Nueva propiedad para la visibilidad de la contraseña
         private string eyeIcon;  // Nueva propiedad para el ícono del ojo
         #endregion
-            
+
         #region Propiedades
         public string txtemail
         {
@@ -97,16 +98,46 @@ namespace Tesis.ViewModels
                     return;
                 }
 
-                var token = authuser.FirebaseToken;
-                var authData = JsonConvert.SerializeObject(authuser);
-                await SecureStorage.SetAsync("firebase_token", authData);
-                // Si la autenticación es exitosa, redirige al usuario
-                var navigationPage = new NavigationPage(new MainFlyoutPage())
-                {
-                    BarBackgroundColor = Color.RoyalBlue
-                };
+                var userId = authuser.User.LocalId;
 
-                App.Current.MainPage = navigationPage;
+                var user = await Conexionfirebase.firebase
+                    .Child("Usuarios") // Nodo principal en la base de datos
+                    .Child(userId)     // ID único del usuario
+                    .OnceSingleAsync<MUsuarios>();
+
+                if (user == null)
+                {
+                    await App.Current.MainPage.DisplayAlert("Error", "No se encontró información del usuario.", "Aceptar");
+                    return;
+                }
+                // Redirigir según el TipoPerfil
+                switch (user.TipoPerfil)
+                {
+                    case "Estudiante":
+                        App.Current.MainPage = new MainFlyoutPage
+                        {
+                            Detail = new NavigationPage(new StudentPage())
+                        };
+                        break;
+
+                    case "Psicologo":
+                        App.Current.MainPage = new MainFlyoutPage
+                        {
+                            Detail = new NavigationPage(new PsychologistPage())
+                        };
+                        break;
+
+                    case "Administrador":
+                        App.Current.MainPage = new MainFlyoutPage
+                        {
+                            Detail = new NavigationPage(new AdminMainPage())
+                        };
+                        break;
+
+                    default:
+                        await App.Current.MainPage.DisplayAlert("Advertencia", "Tipo de perfil desconocido.", "Aceptar");
+                        break;
+                }
             }
             catch (FirebaseAuthException ex)
             {

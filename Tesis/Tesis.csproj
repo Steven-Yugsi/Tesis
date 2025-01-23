@@ -12,6 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Date\**" />
+    <EmbeddedResource Remove="Date\**" />
+    <None Remove="Date\**" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="4.1.0" />
 	  <PackageReference Include="FirebaseAuthentication.net" Version="3.7.2" />
 	  <PackageReference Include="FirebaseDatabase.net" Version="4.0.7" />
@@ -60,10 +66,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
 	  <AndroidManifest Include="Properties\AndroidManifest.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Date\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -16,7 +16,7 @@ namespace Tesis.Views
 
         public MainFlyoutPage()
         {
-            InitializeComponent(); 
+            InitializeComponent();
             ShowProfileCommand = new Command(async () => await GoToUserProfilePage());
             ShowRolesCommand = new Command(async () => await OnAdministrarRolesClicked());
             ShowUserListCommand = new Command(OpenUserListPage);
@@ -55,7 +55,7 @@ namespace Tesis.Views
 
                 // Si el tipo de perfil es "Administrador", mostrar la opción de Administrar Roles
                 if (userProfile?.Tipoperfil == "Administrador")
-                {                   
+                {
                     ShowRolesCommand = new Command(async () => await OnAdministrarRolesClicked());
 
                 }
@@ -137,7 +137,7 @@ namespace Tesis.Views
         }
 
         // Método que maneja la navegación cuando el usuario hace click en "Administrar Roles"
-        private async Task  OnAdministrarRolesClicked()
+        private async Task OnAdministrarRolesClicked()
         {
             await Navigation.PushAsync(new AdministrarRolesPage());
         }

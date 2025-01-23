@@ -12,7 +12,7 @@ namespace Tesis.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UserProfilePage : ContentPage
     {
-       // private UserProfileViewModel viewModel;
+        // private UserProfileViewModel viewModel;
 
         public UserProfilePage(string userId)
         {
