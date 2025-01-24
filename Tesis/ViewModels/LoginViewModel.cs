@@ -88,6 +88,7 @@ namespace Tesis.ViewModels
                 // Intentar iniciar sesión con Firebase
                 var authuser = await authProvider.SignInWithEmailAndPasswordAsync(objusuario.EmailField, objusuario.PasswordField);
 
+                // Verificar si el correo está verificado
                 if (!authuser.User.IsEmailVerified)
                 {
                     await App.Current.MainPage.DisplayAlert(
@@ -98,8 +99,11 @@ namespace Tesis.ViewModels
                     return;
                 }
 
-                var userId = authuser.User.LocalId;
+                // Actualizar y almacenar token de Firebase
+                var refreshedAuth = await authProvider.RefreshAuthAsync(authuser);
+                await SecureStorage.SetAsync("firebase_token", JsonConvert.SerializeObject(refreshedAuth));
 
+                var userId = refreshedAuth.User.LocalId;
                 var user = await Conexionfirebase.firebase
                     .Child("Usuarios") // Nodo principal en la base de datos
                     .Child(userId)     // ID único del usuario
@@ -110,6 +114,7 @@ namespace Tesis.ViewModels
                     await App.Current.MainPage.DisplayAlert("Error", "No se encontró información del usuario.", "Aceptar");
                     return;
                 }
+
                 // Redirigir según el TipoPerfil
                 switch (user.TipoPerfil)
                 {
@@ -142,25 +147,23 @@ namespace Tesis.ViewModels
             catch (FirebaseAuthException ex)
             {
                 string mensajeError;
-                if (ex.Reason == AuthErrorReason.WrongPassword)
+                switch (ex.Reason)
                 {
-                    mensajeError = "La contraseña es incorrecta. Por favor, inténtalo de nuevo.";
-                }
-                else if (ex.Reason == AuthErrorReason.UnknownEmailAddress)
-                {
-                    mensajeError = "El correo electrónico no está registrado. Por favor, regístrate primero.";
-                }
-                else if (ex.Reason == AuthErrorReason.UserDisabled)
-                {
-                    mensajeError = "La cuenta ha sido deshabilitada. Contacta al soporte técnico.";
-                }
-                else if (ex.Reason == AuthErrorReason.TooManyAttemptsTryLater)
-                {
-                    mensajeError = "Se ha bloqueado temporalmente el acceso debido a demasiados intentos fallidos. Intenta más tarde.";
-                }
-                else
-                {
-                    mensajeError = $"Error de autenticación: {ex.Message}";
+                    case AuthErrorReason.WrongPassword:
+                        mensajeError = "La contraseña es incorrecta. Por favor, inténtalo de nuevo.";
+                        break;
+                    case AuthErrorReason.UnknownEmailAddress:
+                        mensajeError = "El correo electrónico no está registrado. Por favor, regístrate primero.";
+                        break;
+                    case AuthErrorReason.UserDisabled:
+                        mensajeError = "La cuenta ha sido deshabilitada. Contacta al soporte técnico.";
+                        break;
+                    case AuthErrorReason.TooManyAttemptsTryLater:
+                        mensajeError = "Se ha bloqueado temporalmente el acceso debido a demasiados intentos fallidos. Intenta más tarde.";
+                        break;
+                    default:
+                        mensajeError = $"Error de autenticación: {ex.Message}";
+                        break;
                 }
 
                 await App.Current.MainPage.DisplayAlert("Error de inicio de sesión", mensajeError, "Aceptar");
