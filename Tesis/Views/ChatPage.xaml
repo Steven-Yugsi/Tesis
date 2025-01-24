@@ -1,0 +1,57 @@
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Tesis.ViewModels"
+             x:Class="Tesis.Views.ChatPage">
+
+    <ContentPage.BindingContext>
+        <vm:ChatViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout Padding="10">
+        <!-- Lista de mensajes -->
+        <ListView ItemsSource="{Binding Messages}" 
+                  HasUnevenRows="True" 
+                  IsPullToRefreshEnabled="True" 
+                  RefreshCommand="{Binding RefreshMessagesCommand}" 
+                  SeparatorVisibility="Default">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="5" Orientation="Vertical">
+                            <!-- Estilo para mensajes del usuario -->
+                            <Label Text="{Binding Role}" 
+                                   FontAttributes="Bold" 
+                                   TextColor="DarkSlateGray" 
+                                   HorizontalOptions="Start" />
+                            <Frame BackgroundColor="#f1f1f1" 
+                                   Padding="10" 
+                                   CornerRadius="10" 
+                                   HasShadow="True">
+                                <Label Text="{Binding Content}" 
+                                       TextColor="Black" />
+                            </Frame>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!-- Entrada de mensaje del usuario -->
+        <Frame BackgroundColor="#f4f4f4" 
+               Padding="10" 
+               CornerRadius="20" 
+               HasShadow="True">
+            <Entry Placeholder="Escribe tu mensaje..." 
+                   Text="{Binding UserMessage}" 
+                   HorizontalTextAlignment="Start" />
+        </Frame>
+
+        <!-- Botón para enviar mensaje -->
+        <Button Text="Enviar" 
+                Command="{Binding SendMessageCommand}" 
+                BackgroundColor="DodgerBlue" 
+                TextColor="White" 
+                CornerRadius="20" 
+                VerticalOptions="End" />
+    </StackLayout>
+</ContentPage>

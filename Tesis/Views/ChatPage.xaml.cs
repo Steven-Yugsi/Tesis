@@ -10,15 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace Tesis.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class StudentPage : ContentPage
+    public partial class ChatPage : ContentPage
     {
-        public StudentPage()
+        public ChatPage()
         {
             InitializeComponent();
-        }
-        private async void OnChatButtonClicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new ChatPage());
         }
     }
 }

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tesis.Views.AdminMainPage"
              Title="Administrador"
-             BackgroundColor="#FFFFFF">
+             BackgroundColor="#ADD8E6">
     <StackLayout Padding="20" Spacing="15" VerticalOptions="CenterAndExpand">
         <Label Text="Bienvenido, Administrador"
                FontSize="24"

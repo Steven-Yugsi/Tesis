@@ -92,6 +92,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\roles.png" />
     <AndroidResource Include="Resources\drawable\usuarios.png" />
+    <AndroidResource Include="Resources\drawable\admin_logo.png" />
+    <AndroidResource Include="Resources\drawable\chat.png" />
     <None Include="Assets\AQyPnj0A5h.lottie" />
     <Content Include="Resources\1736559235674.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

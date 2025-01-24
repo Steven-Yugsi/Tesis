@@ -5,42 +5,77 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Tesis.Views.StudentPage"
-             Title="Chat para Estudiantes">
+             Title="Chat para Estudiantes"
+             BackgroundColor="#ADD8E6">
+
+    <ContentPage.Resources>
+        <Style x:Key="TitleStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="TextColor" Value="#000000"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+        </Style>
+
+        <Style x:Key="DescriptionStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="TextColor" Value="#363636"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="BackgroundColor" Value="#6200EE"/>
+            <Setter Property="CornerRadius" Value="30"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="WidthRequest" Value="280"/>
+            <Setter Property="HeightRequest" Value="70"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+        </Style>
+
+        <Style x:Key="ContainerStyle" TargetType="Frame">
+            <Setter Property="BackgroundColor" Value="#FFFFFF"/>
+            <Setter Property="HasShadow" Value="True"/>
+            <Setter Property="BorderColor" Value="#D3D3D3"/>
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="Padding" Value="30"/>
+            <Setter Property="Margin" Value="0,10"/>
+        </Style>
+
+        <Style x:Key="ImageStyle" TargetType="Image">
+            <Setter Property="HeightRequest" Value="100"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+        </Style>
+    </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout Padding="20" Spacing="15">
-            <!-- Título -->
-            <Label Text="Chat de Apoyo"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="#6200EE" />
+        <StackLayout Padding="20" Spacing="20" VerticalOptions="CenterAndExpand">
+            <!-- Contenedor para el título -->
+            <Frame Style="{StaticResource ContainerStyle}">
+                <Label Text="Bienvenido al Chat de Apoyo" Style="{StaticResource TitleStyle}" />
+            </Frame>
 
-            <!-- Conversación -->
-            <ScrollView>
-                <StackLayout x:Name="ChatStack"
-                             Padding="10"
-                             Spacing="10">
-                    <!-- Mensajes irán aquí -->
-                    <Label Text="(Mensajes del chat se mostrarán aquí)"
-                           FontSize="14"
-                           TextColor="#666666"
-                           HorizontalOptions="Center" />
-                </StackLayout>
-            </ScrollView>
+            <!-- Contenedor para la descripción -->
+            <Frame Style="{StaticResource ContainerStyle}">
+                <Label Text="Si necesitas asistencia o tienes alguna duda, puedes abrir el chat."
+                       Style="{StaticResource DescriptionStyle}" />
+            </Frame>
 
-            <!-- Entrada para enviar mensajes -->
-            <StackLayout Orientation="Horizontal" Padding="10">
-                <Entry x:Name="MessageEntry"
-                       Placeholder="Escribe tu mensaje..."
-                       HorizontalOptions="FillAndExpand" />
-                <Button Text="Enviar"
-                        Command="{Binding EnviarMensajeCommand}"
-                        BackgroundColor="#6200EE"
-                        TextColor="White"
-                        CornerRadius="25"
-                        WidthRequest="80" />
+            
+
+            <!-- Imágenes informativas o decorativas -->
+            <StackLayout HorizontalOptions="Center" Spacing="10">
+                <Image Source="chat.png" Style="{StaticResource ImageStyle}"/>
+                <Label Text="¡Estamos aquí para ayudarte!" FontSize="14" TextColor="#000000" HorizontalOptions="Center"/>
             </StackLayout>
+
+            <!-- Indicador de carga (animación de espera) -->
+            <StackLayout HorizontalOptions="Center" VerticalOptions="EndAndExpand" Padding="10">
+                <ActivityIndicator IsRunning="True" Color="#6200EE" />
+                <Label Text="Esperando para conectar..." FontSize="12" TextColor="#000000" HorizontalOptions="Center"/>
+            </StackLayout>
+            <!-- Botón para abrir el chat -->
+                <Button Text="Abrir Chat" Style="{StaticResource ButtonStyle}" Clicked="OnChatButtonClicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -5,8 +5,10 @@
     <!-- As of Xamarin.Forms 4.6 the theme has moved into the Forms binary -->
     <!-- If you want to override anything you can do that here. -->
     <!-- Underneath are a couple of entries to get you started. -->
-	  <item name="android:statusBarColor">#ADD8E6</item>
-	  <item name="android:windowLightStatusBar">true</item>
+	  <item name="colorPrimary">#ADD8E6</item>
+	  <item name="colorPrimaryDark">#ADD8E6</item>
+	  <!-- Barra de estado -->
+	  <item name="colorAccent">#6200EE</item>
     <!-- Set theme colors from https://aka.ms/material-colors -->
     <!-- colorPrimary is used for the default action bar background -->
     <!--<item name="colorPrimary">#2196F3</item>-->
