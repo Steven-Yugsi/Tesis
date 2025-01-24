@@ -34,6 +34,13 @@
 
                 <!-- Opciones del menú -->
                 <StackLayout Padding="10" Spacing="15">
+                    <Button Text="Inicio"
+                            Command="{Binding GoToHomePageCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="#FFFFFF"
+                            HorizontalOptions="Start"
+                            FontSize="16"
+                            FontAttributes="Bold"/>
 
                     <Button Text="Perfil"
                             Command="{Binding ShowProfileCommand}"

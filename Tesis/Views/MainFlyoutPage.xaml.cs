@@ -1,6 +1,9 @@
 ﻿using Firebase.Database;
+using Firebase.Database.Query;
 using System;
 using System.Threading.Tasks;
+using Tesis.Conexion;
+using Tesis.Models;
 using Tesis.ViewModels;
 using Tesis.Views;
 using Xamarin.Essentials;
@@ -11,22 +14,46 @@ namespace Tesis.Views
     public partial class MainFlyoutPage : FlyoutPage
     {
         public Command ShowProfileCommand { get; }
-        public Command ShowRolesCommand { get; set; }
+        public Command ShowRolesCommand { get; }
         public Command ShowUserListCommand { get; }
+        public Command GoToHomePageCommand { get; }
+        private string userProfileType;
+
+
+        private bool _isAdmin;
+        public bool IsAdmin
+        {
+            get => _isAdmin;
+            set
+            {
+                _isAdmin = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MainFlyoutPage()
         {
             InitializeComponent();
             ShowProfileCommand = new Command(async () => await GoToUserProfilePage());
             ShowRolesCommand = new Command(async () => await OnAdministrarRolesClicked());
+            GoToHomePageCommand = new Command(GoToHomePage);
             ShowUserListCommand = new Command(OpenUserListPage);
 
             BindingContext = this;
             CheckUserProfile();
         }
+
         private async void OpenUserListPage()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new UserListPage());
+            try
+            {
+                Detail = new NavigationPage(new UserListPage());
+                IsPresented = false; // Cerrar el menú lateral
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"No se pudo abrir la página de usuarios: {ex.Message}", "Aceptar");
+            }
         }
 
         private async void CheckUserProfile()
@@ -50,18 +77,11 @@ namespace Tesis.Views
                     return;
                 }
 
-                // Cargar los datos del perfil del usuario
+                // Cargar los datos del perfil del usuario           
                 var userProfile = await GetUserProfileAsync(userId);
-
-                // Si el tipo de perfil es "Administrador", mostrar la opción de Administrar Roles
-                if (userProfile?.Tipoperfil == "Administrador")
+                if (userProfile != null)
                 {
-                    ShowRolesCommand = new Command(async () => await OnAdministrarRolesClicked());
-
-                }
-                else
-                {
-                    ShowRolesCommand = null; // No mostrar la opción para roles
+                    userProfileType = userProfile.TipoPerfil; // Guardar el tipo de perfil
                 }
             }
             catch (Exception ex)
@@ -70,16 +90,27 @@ namespace Tesis.Views
             }
         }
 
-        // Método que obtiene los datos del perfil del usuario desde Firebase
-        private async Task<UserProfile> GetUserProfileAsync(string userId)
+        private async Task<MUsuarios> GetUserProfileAsync(string userId)
         {
-            // Aquí obtendrás el perfil del usuario desde Firebase usando su ID
-            // Este es solo un ejemplo, reemplaza con la lógica que utilizas para obtener el perfil.
-            var userProfile = new UserProfile { Tipoperfil = "Administrador" };  // Simulación
-            return await Task.FromResult(userProfile);
+            {
+                try
+                {
+                    // Asegúrate de usar tu cliente Firebase configurado en `Conexionfirebase`
+                    var userProfile = await Conexionfirebase.firebase
+                        .Child("Usuarios") // Nodo principal donde almacenas los usuarios
+                        .Child(userId)  // Nodo del usuario específico
+                        .OnceSingleAsync<MUsuarios>(); // Mapea los datos al modelo UserProfile
+
+                    return userProfile; // Devuelve el perfil del usuario
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error al obtener el perfil: {ex.Message}");
+                    return null; // En caso de error, devuelve null
+                }
+            }
         }
 
-        // Método para ir al perfil del usuario
         private async Task GoToUserProfilePage()
         {
             try
@@ -92,7 +123,6 @@ namespace Tesis.Views
                     return;
                 }
 
-                // Obtener ID de usuario autenticado
                 var userId = await UserProfileViewModel.GetUserIdAsync();
                 if (string.IsNullOrEmpty(userId))
                 {
@@ -101,9 +131,8 @@ namespace Tesis.Views
                     return;
                 }
 
-                // Cargar datos del usuario
-                var userProfilePage = new UserProfilePage(userId);
-                await Navigation.PushAsync(userProfilePage);  // Navegar a la página del perfil
+                Detail = new NavigationPage(new UserProfilePage(userId));
+                IsPresented = false; // Cerrar el menú lateral
             }
             catch (Exception ex)
             {
@@ -111,7 +140,6 @@ namespace Tesis.Views
             }
         }
 
-        // Cuando el usuario elige cerrar sesión
         private async void OnLogoutClicked(object sender, EventArgs e)
         {
             bool isConfirmed = await DisplayAlert("Confirmación",
@@ -123,10 +151,7 @@ namespace Tesis.Views
             {
                 try
                 {
-                    // Eliminar el token de Firebase (si lo estás almacenando)
                     SecureStorage.Remove("firebase_token");
-
-                    // Redirigir a la pantalla de inicio de sesión
                     Application.Current.MainPage = new NavigationPage(new LoginPage());
                 }
                 catch (Exception ex)
@@ -136,17 +161,60 @@ namespace Tesis.Views
             }
         }
 
-        // Método que maneja la navegación cuando el usuario hace click en "Administrar Roles"
         private async Task OnAdministrarRolesClicked()
         {
-            await Navigation.PushAsync(new AdministrarRolesPage());
+            try
+            {
+                Detail = new NavigationPage(new AdministrarRolesPage());
+                IsPresented = false; // Cerrar el menú lateral
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"No se pudo abrir la página de roles: {ex.Message}", "Aceptar");
+            }
+        }
+        private void GoToHomePage()
+        {
+            if (string.IsNullOrEmpty(userProfileType))
+            {
+                DisplayAlert("Error", "No se pudo determinar el tipo de perfil del usuario.", "Aceptar");
+                return;
+            }
+            // Redirigir a la página correspondiente según el tipo de perfil
+            Page homePage = GetHomePageForProfile(userProfileType);
+
+            if (homePage != null)
+            {
+                Detail = new NavigationPage(homePage);
+                IsPresented = false; // Cerrar el menú lateral
+            }
+            else
+            {
+                DisplayAlert("Error", "No se pudo determinar la página de inicio para este perfil.", "Aceptar");
+            }
+        }
+        private Page GetHomePageForProfile(string profileType)
+        {
+            // Devuelve la página correspondiente según el perfil
+            switch (profileType)
+            {
+                case "Administrador":
+                    return new AdminMainPage(); // Reemplaza con tu página real para el administrador
+                case "Estudiante":
+                    return new StudentPage(); // Reemplaza con tu página real para el estudiante
+                case "Psicologo":
+                    return new PsychologistPage(); // Reemplaza con tu página real para el psicólogo
+                default:
+                    return null; // Si no hay un perfil válido
+            }
         }
     }
-
-    // Clase que representa la estructura del perfil del usuario
     public class UserProfile
     {
         public string Tipoperfil { get; set; }
         // Otros campos del perfil...
+
     }
 }
+
+
