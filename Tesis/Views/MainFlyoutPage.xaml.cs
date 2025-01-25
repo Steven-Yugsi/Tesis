@@ -1,6 +1,7 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Tesis.Conexion;
 using Tesis.Models;
@@ -11,13 +12,14 @@ using Xamarin.Forms;
 
 namespace Tesis.Views
 {
-    public partial class MainFlyoutPage : FlyoutPage
+    public partial class MainFlyoutPage : FlyoutPage, INotifyPropertyChanged
     {
         public Command ShowProfileCommand { get; }
         public Command ShowRolesCommand { get; }
         public Command ShowUserListCommand { get; }
         public Command GoToHomePageCommand { get; }
         private string userProfileType;
+       
 
 
         private bool _isAdmin;
@@ -27,10 +29,10 @@ namespace Tesis.Views
             set
             {
                 _isAdmin = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsAdmin));
             }
         }
-
+       // public event PropertyChangedEventHandler PropertyChanged;
         public MainFlyoutPage()
         {
             InitializeComponent();
@@ -42,7 +44,11 @@ namespace Tesis.Views
             BindingContext = this;
             CheckUserProfile();
         }
-
+        protected override void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+            // Aquí puedes agregar lógica personalizada si es necesario.
+        }
         private async void OpenUserListPage()
         {
             try
@@ -68,7 +74,6 @@ namespace Tesis.Views
 
             try
             {
-                // Obtener ID de usuario autenticado
                 var userId = await UserProfileViewModel.GetUserIdAsync();
                 if (string.IsNullOrEmpty(userId))
                 {
@@ -81,7 +86,8 @@ namespace Tesis.Views
                 var userProfile = await GetUserProfileAsync(userId);
                 if (userProfile != null)
                 {
-                    userProfileType = userProfile.TipoPerfil; // Guardar el tipo de perfil
+                    userProfileType = userProfile.TipoPerfil; // Guardar el tipo de perfil}
+                    IsAdmin = userProfileType == "Administrador";
                 }
             }
             catch (Exception ex)
@@ -139,7 +145,11 @@ namespace Tesis.Views
                 await DisplayAlert("Error", $"Ocurrió un problema: {ex.Message}", "Aceptar");
             }
         }
-
+        private async Task ShowLoginError(string message)
+        {
+            await DisplayAlert("Error", message, "Aceptar");
+            Application.Current.MainPage = new LoginPage();
+        }
         private async void OnLogoutClicked(object sender, EventArgs e)
         {
             bool isConfirmed = await DisplayAlert("Confirmación",
@@ -181,8 +191,7 @@ namespace Tesis.Views
                 return;
             }
             // Redirigir a la página correspondiente según el tipo de perfil
-            Page homePage = GetHomePageForProfile(userProfileType);
-
+            var homePage = GetHomePageForProfile(userProfileType);
             if (homePage != null)
             {
                 Detail = new NavigationPage(homePage);
@@ -199,19 +208,19 @@ namespace Tesis.Views
             switch (profileType)
             {
                 case "Administrador":
-                    return new AdminMainPage(); // Reemplaza con tu página real para el administrador
+                    return new AdminMainPage();
                 case "Estudiante":
-                    return new StudentPage(); // Reemplaza con tu página real para el estudiante
+                    return new StudentPage();
                 case "Psicologo":
-                    return new PsychologistPage(); // Reemplaza con tu página real para el psicólogo
+                    return new PsychologistPage();
                 default:
-                    return null; // Si no hay un perfil válido
+                    return null;
             }
         }
     }
     public class UserProfile
     {
-        public string Tipoperfil { get; set; }
+        public string TipoPerfil { get; set; }
         // Otros campos del perfil...
 
     }

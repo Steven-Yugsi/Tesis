@@ -3,63 +3,120 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tesis.Views.UserProfilePage"
              Title="Perfil de Usuario"
-             BackgroundColor="{StaticResource PrimaryBackgroundColor}">
+             BackgroundColor="#ADD8E6">
+    <!-- Fondo con color pastel azul -->
 
     <ContentPage.Resources>
-        <!-- Estilos específicos -->
+        <!-- Estilos reutilizables -->
         <Style x:Key="ProfileInfoLabel" TargetType="Label">
             <Setter Property="FontSize" Value="16" />
-            <Setter Property="TextColor" Value="{StaticResource SecondaryTextColor}" />
+            <Setter Property="TextColor" Value="#7A7A7A" />
+            <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+            <Setter Property="Margin" Value="0,5" />
         </Style>
 
         <Style x:Key="ProfileValueLabel" TargetType="Label">
             <Setter Property="FontSize" Value="20" />
             <Setter Property="FontAttributes" Value="Bold" />
-            <Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}" />
+            <Setter Property="TextColor" Value="#2F4F4F" />
+            <Setter Property="Margin" Value="10,0" />
         </Style>
 
         <Style x:Key="ProfileCard" TargetType="Frame">
-            <Setter Property="BackgroundColor" Value="{StaticResource ContainerBackgroundColor}" />
-            <Setter Property="CornerRadius" Value="15" />
+            <Setter Property="BackgroundColor" Value="White" />
+            <Setter Property="CornerRadius" Value="20" />
             <Setter Property="HasShadow" Value="True" />
-            <Setter Property="Padding" Value="15" />
-            <Setter Property="Margin" Value="10" />
+            <Setter Property="Padding" Value="20" />
+            <Setter Property="Margin" Value="0,20" />
+        </Style>
+
+        <Style x:Key="UserProfileTitle" TargetType="Label">
+            <Setter Property="FontSize" Value="32" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="#1E2A47" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="Margin" Value="0,15" />
+        </Style>
+
+        <Style x:Key="SectionTitle" TargetType="Label">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="#1E2A47" />
+            <Setter Property="Margin" Value="0,10,0,5" />
+        </Style>
+
+        <Style x:Key="ProfileImageFrame" TargetType="Frame">
+            <Setter Property="BackgroundColor">
+                <Setter.Value>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#00BFFF" Offset="0.1" />
+                        <GradientStop Color="#1E90FF" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CornerRadius" Value="100" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="HasShadow" Value="True" />
+            <Setter Property="WidthRequest" Value="160" />
+            <Setter Property="HeightRequest" Value="160" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="Margin" Value="0,20,0,10" />
         </Style>
     </ContentPage.Resources>
 
     <ScrollView>
         <StackLayout Padding="20" Spacing="20">
 
+            <!-- Encabezado decorativo -->
+            <Frame BackgroundColor="#20B2AA" CornerRadius="20" Padding="15" HorizontalOptions="FillAndExpand">
+                <Label Text="Bienvenido a tu perfil" FontSize="20" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" />
+            </Frame>
+
             <!-- Foto del Usuario -->
-            <Frame CornerRadius="75" HeightRequest="150" WidthRequest="150" HorizontalOptions="Center" Padding="0" IsClippedToBounds="True">
+            <Frame Style="{StaticResource ProfileImageFrame}" IsClippedToBounds="True">
                 <Image Source="{Binding ImagenUrl}" Aspect="AspectFill" />
             </Frame>
 
             <!-- Nombre del Usuario -->
-            <Label Text="{Binding Nombre}" 
-                   FontSize="24" 
-                   FontAttributes="Bold" 
-                   HorizontalOptions="Center" 
-                   TextColor="{StaticResource PrimaryTextColor}" />
+            <Label Text="{Binding Nombre}" Style="{StaticResource UserProfileTitle}" />
 
             <!-- Información del Usuario -->
             <Frame Style="{StaticResource ProfileCard}">
-                <StackLayout Spacing="10">
-                    <Label Text="Correo" Style="{StaticResource ProfileInfoLabel}" />
-                    <Label Text="{Binding Correo}" Style="{StaticResource ProfileValueLabel}" />
+                <StackLayout Spacing="15">
+                    <!-- Sección de Correo -->
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Image Source="icon_email.png" WidthRequest="24" HeightRequest="24" />
+                        <StackLayout>
+                            <Label Text="Correo" Style="{StaticResource SectionTitle}" />
+                            <Label Text="{Binding Correo}" Style="{StaticResource ProfileValueLabel}" />
+                        </StackLayout>
+                    </StackLayout>
 
-                    <Label Text="Teléfono" Style="{StaticResource ProfileInfoLabel}" />
-                    <Label Text="{Binding Telefono}" Style="{StaticResource ProfileValueLabel}" />
+                    <!-- Divisor -->
+                    <BoxView HeightRequest="1" BackgroundColor="#D3D3D3" Margin="0,10" />
 
-                    <Label Text="Apellido" Style="{StaticResource ProfileInfoLabel}" />
-                    <Label Text="{Binding Apellido}" Style="{StaticResource ProfileValueLabel}" />
+                    <!-- Sección de Teléfono -->
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Image Source="icon_phone.png" WidthRequest="24" HeightRequest="24" />
+                        <StackLayout>
+                            <Label Text="Teléfono" Style="{StaticResource SectionTitle}" />
+                            <Label Text="{Binding Telefono}" Style="{StaticResource ProfileValueLabel}" />
+                        </StackLayout>
+                    </StackLayout>
+
+                    <!-- Divisor -->
+                    <BoxView HeightRequest="1" BackgroundColor="#D3D3D3" Margin="0,10" />
+
+                    <!-- Sección de Apellido -->
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Image Source="icon_user1.png" WidthRequest="24" HeightRequest="24" />
+                        <StackLayout>
+                            <Label Text="Apellido" Style="{StaticResource SectionTitle}" />
+                            <Label Text="{Binding Apellido}" Style="{StaticResource ProfileValueLabel}" />
+                        </StackLayout>
+                    </StackLayout>
                 </StackLayout>
             </Frame>
-
-            <!-- Botón de Acción -->
-            <Button Text="Editar Perfil" 
-                    Style="{StaticResource PrimaryButtonStyle}" 
-                    HorizontalOptions="Center" />
         </StackLayout>
     </ScrollView>
 </ContentPage>

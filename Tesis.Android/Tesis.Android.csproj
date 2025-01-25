@@ -94,6 +94,11 @@
     <AndroidResource Include="Resources\drawable\usuarios.png" />
     <AndroidResource Include="Resources\drawable\admin_logo.png" />
     <AndroidResource Include="Resources\drawable\chat.png" />
+    <AndroidResource Include="Resources\drawable\admin_image.png" />
+    <AndroidResource Include="Resources\drawable\icon_email.png" />
+    <AndroidResource Include="Resources\drawable\icon_phone.png" />
+    <AndroidResource Include="Resources\drawable\icon_user1.png" />
+    <AndroidResource Include="Resources\drawable\no_notifications.png" />
     <None Include="Assets\AQyPnj0A5h.lottie" />
     <Content Include="Resources\1736559235674.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

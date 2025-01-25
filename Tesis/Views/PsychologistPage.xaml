@@ -1,54 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
              x:Class="Tesis.Views.PsychologistPage"
-             Title="Panel de Psicólogo">
+             Title="Panel de Psicólogo"
+             BackgroundColor="#ADD8E6">
 
     <ContentPage.Content>
-        <StackLayout Padding="20" Spacing="15">
-            <!-- Título -->
+        <StackLayout Padding="20" Spacing="20">
+            <!-- Título de la página -->
             <Label Text="Notificaciones de Riesgo"
-                   FontSize="24"
+                   FontSize="28"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
-                   TextColor="#6200EE" />
+                   TextColor="#2F4F4F" />
 
             <!-- Lista de notificaciones -->
             <ListView x:Name="NotificacionesListView"
                       ItemsSource="{Binding Notificaciones}"
                       HasUnevenRows="True"
-                      SelectionMode="Single"
-                     >
+                      SelectionMode="Single">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="10">
-                                <Label Text="{Binding Estudiante}"
-                                       FontSize="16"
-                                       FontAttributes="Bold"
-                                       TextColor="#333333" />
-                                <Label Text="{Binding Mensaje}"
-                                       FontSize="14"
-                                       TextColor="#666666" />
-                                <Label Text="{Binding FechaHora}"
-                                       FontSize="12"
-                                       TextColor="#888888" />
-                            </StackLayout>
+                            <Frame BorderColor="#D3D3D3" BackgroundColor="White" CornerRadius="15" HasShadow="True" Padding="15" Margin="0,10">
+                                <StackLayout>
+                                    <Label Text="{Binding Estudiante}"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="#2F4F4F" />
+                                    <Label Text="{Binding Mensaje}"
+                                           FontSize="16"
+                                           TextColor="#5A5A5A" />
+                                    <Label Text="{Binding FechaHora}"
+                                           FontSize="12"
+                                           TextColor="#8F8F8F" />
+                                </StackLayout>
+                            </Frame>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
-            <!-- Botón para ver estadísticas (opcional) -->
-            <Button Text="Ver estadísticas"
-                    Command="{Binding VerEstadisticasCommand}"
-                    BackgroundColor="#6200EE"
-                    TextColor="White"
-                    CornerRadius="25"
-                    HeightRequest="50" />
+            <!-- Mensaje cuando no hay notificaciones -->
+            <StackLayout x:Name="EmptyView" IsVisible="{Binding Notificaciones.Count}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Spacing="20">
+                <Image Source="no_notifications.png" WidthRequest="150" HeightRequest="150" HorizontalOptions="Center" />
+                <Label Text="No hay notificaciones de riesgo"
+                       FontSize="20"
+                       FontAttributes="Italic"
+                       TextColor="#888888"
+                       HorizontalOptions="Center" />
+            </StackLayout>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

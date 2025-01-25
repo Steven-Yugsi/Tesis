@@ -4,15 +4,70 @@
              x:Class="Tesis.Views.AdminMainPage"
              Title="Administrador"
              BackgroundColor="#ADD8E6">
-    <StackLayout Padding="20" Spacing="15" VerticalOptions="CenterAndExpand">
-        <Label Text="Bienvenido, Administrador"
-               FontSize="24"
-               FontAttributes="Bold"
-               HorizontalTextAlignment="Center"
-               TextColor="#333333" />
-        <Button Text="Gestionar Usuarios"
-                BackgroundColor="#6200EE"
-                TextColor="White"
-                CornerRadius="25" />
-    </StackLayout>
+    <!-- Fondo azul pastel claro -->
+
+    <!-- Contenedor ScrollView -->
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="30" VerticalOptions="StartAndExpand">
+
+            <!-- Título -->
+            <Label Text="Administrador"
+                   FontSize="36"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"
+                   TextColor="#363636" />
+            <!-- Texto gris oscuro -->
+
+            <!-- Línea decorativa -->
+            <BoxView HeightRequest="2"
+                     BackgroundColor="#D3D3D3"
+                     HorizontalOptions="FillAndExpand"
+                     Margin="0,5,0,20" />
+
+            <!-- Imagen Principal -->
+            <Grid HorizontalOptions="Center" VerticalOptions="Start">
+                <!-- Frame con borde redondeado, sombra, y borde gris -->
+                <Frame HasShadow="True"
+                       BorderColor="#D3D3D3"
+                       BackgroundColor="Transparent"
+                       WidthRequest="220"
+                       HeightRequest="220"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Padding="5"
+                       CornerRadius="110">
+                    <!-- Bordes redondeados -->
+                    <Image Source="admin_image.png"
+                           Aspect="AspectFill"
+                           WidthRequest="200"
+                           HeightRequest="200"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Frame>
+            </Grid>
+
+            <!-- Descripción -->
+            <Label Text="Bienvenido a la sección de administración. Aquí puedes ver el estado general y los datos importantes del sistema."
+                   FontSize="18"
+                   TextColor="#363636" 
+                HorizontalTextAlignment="Center"
+                   Margin="0,10,0,20" />
+
+                <!-- Botones de Acción -->
+                <StackLayout Orientation="Horizontal" Spacing="20" HorizontalOptions="Center">
+                    <Button Text="Ver Usuarios" BackgroundColor="#4682B4" TextColor="White" WidthRequest="150"/>
+                    <Button Text="Ver Estadísticas" BackgroundColor="#4682B4" TextColor="White" WidthRequest="150"/>
+                </StackLayout>
+
+                <!-- Mensaje Final -->
+                <StackLayout BackgroundColor="#FFFFFF" Padding="20" Spacing="10">
+                    <Label Text="Recuerda revisar los Usuarios Nuevos y mantener todo en orden. ¡Tu equipo confía en ti!"
+                       FontSize="16"
+                       FontAttributes="Italic"
+                       TextColor="#363636" 
+                        HorizontalTextAlignment="Center" />
+                </StackLayout>
+        </StackLayout>
+    </ScrollView>
+    <!-- Cierre del ScrollView -->
 </ContentPage>

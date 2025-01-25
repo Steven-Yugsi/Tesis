@@ -1,127 +1,129 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<FlyoutPage xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            x:Class="Tesis.Views.MainFlyoutPage"
-            BackgroundColor="#ADD8E6">
+    <FlyoutPage xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                x:Class="Tesis.Views.MainFlyoutPage"
+                BackgroundColor="#ADD8E6">
 
-    <!-- Menú lateral (Flyout) -->
-    <FlyoutPage.Flyout>
-        <ContentPage Title="Menú"
-                     BackgroundColor="#363636"
-                     Padding="0">
+        <!-- Menú lateral (Flyout) -->
+        <FlyoutPage.Flyout>
+            <ContentPage Title="Menú"
+                         BackgroundColor="#363636"
+                         Padding="0">
 
-            <StackLayout VerticalOptions="FillAndExpand" Spacing="20">
+                <StackLayout VerticalOptions="FillAndExpand" Spacing="20">
 
-                <!-- Cabecera del perfil -->
-                <Frame BackgroundColor="#D3D3D3"
-                       HasShadow="True"
-                       CornerRadius="0"
-                       Padding="20">
-                    <StackLayout>
-                        <Image Source="user_placeholder.png"
-                               HeightRequest="80"
-                               WidthRequest="80"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"
-                               Margin="0,0,0,10"/>
-                        <Label Text="{Binding UsuarioCompleto}"
-                               FontSize="18"
-                               FontAttributes="Bold"
-                               TextColor="#FFFFFF"
-                               HorizontalTextAlignment="Center"/>
-                    </StackLayout>
-                </Frame>
-
-                <!-- Opciones del menú -->
-                <StackLayout Padding="10" Spacing="15">
-                    <Button Text="Inicio"
-                            Command="{Binding GoToHomePageCommand}"
-                            BackgroundColor="Transparent"
-                            TextColor="#FFFFFF"
-                            HorizontalOptions="Start"
-                            FontSize="16"
-                            FontAttributes="Bold"/>
-
-                    <Button Text="Perfil"
-                            Command="{Binding ShowProfileCommand}"
-                            BackgroundColor="Transparent"
-                            TextColor="#FFFFFF"
-                            HorizontalOptions="Start"
-                            FontSize="16"
-                            FontAttributes="Bold"/>
-                    <Button Text="Administrar Roles"
-                            Command="{Binding ShowRolesCommand}"
-                            BackgroundColor="Transparent"
-                            TextColor="#FFFFFF"
-                            HorizontalOptions="Start"
-                            FontSize="16"
-                            FontAttributes="Bold" />
-
-                    <Button Text="Administrar Usuarios"
-                            Command="{Binding ShowUserListCommand}"
-                            BackgroundColor="Transparent"
-                            TextColor="#FFFFFF"
-                            HorizontalOptions="Start"
-                            FontSize="16"
-                            FontAttributes="Bold" />
-
-                    <Button Text="Configuración"
-                            BackgroundColor="Transparent"
-                            TextColor="#FFFFFF"
-                            HorizontalOptions="Start"
-                            FontSize="16"
-                            FontAttributes="Bold"/>
-
-                    <Button Text="Cerrar sesión" 
-                            Clicked="OnLogoutClicked" 
-                            BackgroundColor="#FF5252" 
-                            TextColor="#FFFFFF" 
-                            Padding="10"
-                            FontSize="16"
-                            FontAttributes="Bold"/>
-                </StackLayout>
-            </StackLayout>
-        </ContentPage>
-    </FlyoutPage.Flyout>
-
-    <!-- Contenido principal (Detail) -->
-    <!--<FlyoutPage.Detail>
-        <NavigationPage BarBackgroundColor="#ADD8E6" BarTextColor="#363636">
-            <x:Arguments>
-                <ContentPage Title="Inicio"
-                         BackgroundColor="#ADD8E6"
-                            Padding="20">
-                    <StackLayout Padding="20" Spacing="20" VerticalOptions="CenterAndExpand">
-                        -->
-    <!-- Bienvenida -->
-    <!--
-                        <Frame BackgroundColor="#FFFFFF" BorderColor="#D3D3D3" CornerRadius="15" Padding="20">
-                            <Label Text="¡Bienvenido a la aplicación!"
-                                   FontSize="20"
+                    <!-- Cabecera del perfil -->
+                    <Frame BackgroundColor="#D3D3D3"
+                           HasShadow="True"
+                           CornerRadius="0"
+                           Padding="20">
+                        <StackLayout>
+                            <Image Source="user_placeholder.png"
+                                   HeightRequest="80"
+                                   WidthRequest="80"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   Margin="0,0,0,10"/>
+                            <Label Text="{Binding UsuarioCompleto}"
+                                   FontSize="18"
                                    FontAttributes="Bold"
-                                   HorizontalTextAlignment="Center"
-                                   TextColor="#363636"/>
-                        </Frame>
-
-                        -->
-    <!-- Información principal -->
-    <!--
-                        <StackLayout Spacing="10">
-                            <Label Text="Aquí puedes acceder a las funciones principales de la aplicación."
-                                   FontSize="16"
-                                   HorizontalTextAlignment="Center"
-                                   TextColor="#363636"/>
-                            <Button Text="Ver Más"
-                                    BackgroundColor="#363636"
-                                    TextColor="#FFFFFF" 
-                                    CornerRadius="25"
-                                    HeightRequest="50"
-                                    HorizontalOptions="Center"
-                                    WidthRequest="150"/>
+                                   TextColor="#FFFFFF"
+                                   HorizontalTextAlignment="Center"/>
                         </StackLayout>
+                    </Frame>
+
+                    <!-- Opciones del menú -->
+                    <StackLayout Padding="10" Spacing="15">
+                        <Button Text="Inicio"
+                                Command="{Binding GoToHomePageCommand}"
+                                BackgroundColor="Transparent"
+                                TextColor="#FFFFFF"
+                                HorizontalOptions="Start"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+
+                        <Button Text="Perfil"
+                                Command="{Binding ShowProfileCommand}"
+                                BackgroundColor="Transparent"
+                                TextColor="#FFFFFF"
+                                HorizontalOptions="Start"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
+                        <Button Text="Administrar Roles"
+                                Command="{Binding ShowRolesCommand}"
+                                BackgroundColor="Transparent"
+                                TextColor="#FFFFFF"
+                                HorizontalOptions="Start"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                IsVisible="{Binding IsAdmin}"/>
+
+                        <Button Text="Administrar Usuarios"
+                                Command="{Binding ShowUserListCommand}"
+                                BackgroundColor="Transparent"
+                                TextColor="#FFFFFF"
+                                HorizontalOptions="Start"
+                                FontSize="16"
+                                FontAttributes="Bold" 
+                                IsVisible="{Binding IsAdmin}"/>
+
+                        <!--<Button Text="Configuración"
+                                BackgroundColor="Transparent"
+                                TextColor="#FFFFFF"
+                                HorizontalOptions="Start"
+                                FontSize="16"
+                                FontAttributes="Bold"/>-->
+
+                        <Button Text="Cerrar sesión" 
+                                Clicked="OnLogoutClicked" 
+                                BackgroundColor="#FF5252" 
+                                TextColor="#FFFFFF" 
+                                Padding="10"
+                                FontSize="16"
+                                FontAttributes="Bold"/>
                     </StackLayout>
-                </ContentPage>
-            </x:Arguments>
-        </NavigationPage>
-    </FlyoutPage.Detail>-->
-</FlyoutPage>
+                </StackLayout>
+            </ContentPage>
+        </FlyoutPage.Flyout>
+
+        <!-- Contenido principal (Detail) -->
+        <!--<FlyoutPage.Detail>
+            <NavigationPage BarBackgroundColor="#ADD8E6" BarTextColor="#363636">
+                <x:Arguments>
+                    <ContentPage Title="Inicio"
+                             BackgroundColor="#ADD8E6"
+                                Padding="20">
+                        <StackLayout Padding="20" Spacing="20" VerticalOptions="CenterAndExpand">
+                            -->
+        <!-- Bienvenida -->
+        <!--
+                            <Frame BackgroundColor="#FFFFFF" BorderColor="#D3D3D3" CornerRadius="15" Padding="20">
+                                <Label Text="¡Bienvenido a la aplicación!"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="#363636"/>
+                            </Frame>
+
+                            -->
+        <!-- Información principal -->
+        <!--
+                            <StackLayout Spacing="10">
+                                <Label Text="Aquí puedes acceder a las funciones principales de la aplicación."
+                                       FontSize="16"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="#363636"/>
+                                <Button Text="Ver Más"
+                                        BackgroundColor="#363636"
+                                        TextColor="#FFFFFF" 
+                                        CornerRadius="25"
+                                        HeightRequest="50"
+                                        HorizontalOptions="Center"
+                                        WidthRequest="150"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </ContentPage>
+                </x:Arguments>
+            </NavigationPage>
+        </FlyoutPage.Detail>-->
+    </FlyoutPage>
