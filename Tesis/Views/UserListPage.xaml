@@ -41,40 +41,72 @@
                                    Padding="15"
                                    Margin="0,10"
                                    HasShadow="True">
-                                <StackLayout Spacing="10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <!-- Columna para etiquetas -->
+                                        <ColumnDefinition Width="*"/>
+                                        <!-- Columna para valores -->
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Nombre -->
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Correo -->
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Tipo de Perfil Actual -->
+                                        <RowDefinition Height="Auto"/>
+                                        <!-- Selector de Perfil -->
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Nombre -->
                                     <Label Text="{Binding NombreCompleto}"
-                                           FontSize="20"
-                                           FontAttributes="Bold"
-                                           TextColor="#000000" />
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#000000"
+                                   Grid.ColumnSpan="2"
+                                   HorizontalOptions="Start"/>
 
-                                    <StackLayout Orientation="Vertical" Spacing="5">
-                                        <Label Text="{Binding Correo}"
-                                               FontSize="14"
-                                               TextColor="#757575" />
-                                        <!-- Label para mostrar el tipo de perfil -->
-                                        <Label Text="{Binding TipoPerfil}"
-                                               FontSize="14"
-                                               TextColor="#757575" />
-                                    </StackLayout>
+                                                    <!-- Correo -->
+                                                    <Label Text="Correo:"
+                                   Grid.Row="1"
+                                   FontSize="14"
+                                   TextColor="#757575"
+                                   HorizontalOptions="Start"/>
+                                                    <Label Text="{Binding Correo}"
+                                   Grid.Row="1"
+                                   Grid.Column="1"
+                                   FontSize="14"
+                                   TextColor="#757575"
+                                   HorizontalOptions="Start"/>
 
-                                    <StackLayout Orientation="Horizontal" Spacing="10">
-                                        <Label Text="Tipo de Perfil:"
-                                               FontSize="14"
-                                               TextColor="#000000" />
+                                                    <!-- Tipo de Perfil Actual -->
+                                                    <Label Text="Perfil Actual:"
+                                   Grid.Row="2"
+                                   FontSize="14"
+                                   TextColor="#757575"
+                                   HorizontalOptions="Start"/>
+                                                    <Label Text="{Binding TipoPerfil}"
+                                   Grid.Row="2"
+                                   Grid.Column="1"
+                                   FontSize="14"
+                                   TextColor="#757575"
+                                   HorizontalOptions="Start"/>
 
-                                        <!-- Picker para seleccionar el tipo de perfil -->
-                                        <Picker x:Name="TipoPerfilPicker"
-                                                Title="Seleccionar Perfil"
-                                                ItemsSource="{Binding Source={x:Reference UserListPage1}, Path=BindingContext.TiposDePerfil}"
-                                                SelectedItem="{Binding TipoPerfil, Mode=TwoWay}"
-                                                SelectedIndexChanged="OnTipoPerfilChanged"
-                                                TextColor="#363636"
-                                                FontSize="14"
-                                                HeightRequest="50"
-                                                />
-
-                                    </StackLayout>
-                                </StackLayout>
+                                                    <!-- Selector de Perfil -->
+                                  <Label Text="Cambiar Perfil:"
+                                   Grid.Row="3"
+                                   FontSize="14"
+                                   TextColor="#000000"
+                                   HorizontalOptions="Start"/>
+                                                    <Picker Grid.Row="3"
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding Source={x:Reference UserListPage1}, Path=BindingContext.TiposDePerfil}"
+                                    SelectedItem="{Binding TipoPerfil, Mode=TwoWay}"
+                                    TextColor="#363636"
+                                    FontSize="14"
+                                    HorizontalOptions="Start"/>
+                                </Grid>
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

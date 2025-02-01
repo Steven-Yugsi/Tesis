@@ -4,20 +4,25 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Tesis.Models;
+
 namespace Tesis.Conexion
 {
     public class ChatService
     {
-        private readonly string apiUrl = "http://10.0.2.2:5000/chat"; // Cambia esto si tu API Flask está en un servidor remoto
+        private readonly string apiUrl = "https://servicios.hostsbeast.com/chat"; // Cambia esto si tu API Flask está en un servidor remoto
 
-        public async Task<string> SendMessageAsync(string userMessage)
+        public async Task<string> SendMessageAsync(string userMessage, string userId)
         {
             try
             {
                 using (var client = new HttpClient())
                 {
                     // Crear el objeto JSON para enviar
-                    var data = new { message = userMessage };
+                    var data = new
+                    {
+                        message = userMessage,
+                        userId = userId // Agregar el ID del usuario
+                    };
                     var jsonContent = JsonConvert.SerializeObject(data);
 
                     // Configurar el contenido para la solicitud POST
@@ -26,9 +31,11 @@ namespace Tesis.Conexion
                     // Hacer la solicitud POST
                     var response = await client.PostAsync(apiUrl, content);
 
+                    // Registrar el estado de la respuesta
+                    Console.WriteLine($"Código de estado: {response.StatusCode}");
+
                     if (response.IsSuccessStatusCode)
                     {
-                        // Leer la respuesta del asistente
                         var responseString = await response.Content.ReadAsStringAsync();
                         var chatResponse = JsonConvert.DeserializeObject<ChatResponse>(responseString);
 
@@ -36,7 +43,10 @@ namespace Tesis.Conexion
                     }
                     else
                     {
-                        return "Error al comunicarse con el asistente.";
+                        // Leer el contenido de error
+                        var errorContent = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine($"Error: {errorContent}");
+                        return $"Error al comunicarse con el asistente. Código de estado: {response.StatusCode}";
                     }
                 }
             }

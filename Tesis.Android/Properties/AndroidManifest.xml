@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:versionCode="1" android:versionName="1.0" package="com.companyname.tesis" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="29" android:targetSdkVersion="33" />
-	<application android:label="Tesis.Android" android:theme="@style/MainTheme" android:requestLegacyExternalStorage="true"></application>
+	<application android:label="Tesis.Android" android:theme="@style/MainTheme" android:requestLegacyExternalStorage="true"   android:usesCleartextTraffic="true"></application>
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />

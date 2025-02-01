@@ -40,7 +40,7 @@ namespace Tesis.Views
             ShowRolesCommand = new Command(async () => await OnAdministrarRolesClicked());
             GoToHomePageCommand = new Command(GoToHomePage);
             ShowUserListCommand = new Command(OpenUserListPage);
-
+            Detail = new NavigationPage(new PsychologistPage());
             BindingContext = this;
             CheckUserProfile();
         }
@@ -53,8 +53,11 @@ namespace Tesis.Views
         {
             try
             {
-                Detail = new NavigationPage(new UserListPage());
-                IsPresented = false; // Cerrar el menú lateral
+                if (Detail is NavigationPage navigationPage)
+                {
+                    await navigationPage.Navigation.PushAsync(new UserListPage());
+                }
+                IsPresented = false;
             }
             catch (Exception ex)
             {
@@ -86,8 +89,14 @@ namespace Tesis.Views
                 var userProfile = await GetUserProfileAsync(userId);
                 if (userProfile != null)
                 {
-                    userProfileType = userProfile.TipoPerfil; // Guardar el tipo de perfil}
+                    userProfileType = userProfile.TipoPerfil;
                     IsAdmin = userProfileType == "Administrador";
+
+                    // ✅ REEMPLAZAMOS LA PÁGINA INICIAL SEGÚN EL PERFIL DEL USUARIO
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        Detail = new NavigationPage(GetHomePageForProfile(userProfileType));
+                    });
                 }
             }
             catch (Exception ex)
@@ -194,8 +203,9 @@ namespace Tesis.Views
             var homePage = GetHomePageForProfile(userProfileType);
             if (homePage != null)
             {
+                // ✅ Navega dentro del NavigationPage existente
                 Detail = new NavigationPage(homePage);
-                IsPresented = false; // Cerrar el menú lateral
+                IsPresented = false;
             }
             else
             {

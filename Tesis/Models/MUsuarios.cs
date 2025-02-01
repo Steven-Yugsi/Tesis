@@ -15,7 +15,6 @@ namespace Tesis.Models
         public string Correo { get; set; }
         public string Contraseña { get; set; }
         public string TipoPerfil { get; set; }
-        //public string RolId { get; set; }
         [JsonIgnore]
         public string NombreCompleto
         {
@@ -24,5 +23,6 @@ namespace Tesis.Models
                 return $"{Nombre} {Apellido}";
             }
         }
+
     }
 }

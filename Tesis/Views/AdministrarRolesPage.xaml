@@ -3,58 +3,112 @@
              x:Class="Tesis.Views.AdministrarRolesPage"
              Title="Administrar Roles"
              BackgroundColor="#ADD8E6">
-    <!-- Fondo azul celeste pastel -->
+
+    <ContentPage.Resources>
+        <!-- Estilos reutilizables -->
+        <Style TargetType="Label" x:Key="TituloPrincipal">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="TextColor" Value="#2C3E50"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Label" x:Key="Subtitulo">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextColor" Value="#707070"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Frame" x:Key="CardStyle">
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="BorderColor" Value="#D3D3D3"/>
+            <Setter Property="BackgroundColor" Value="White"/>
+            <Setter Property="HasShadow" Value="True"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="0,8"/>
+        </Style>
+    </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout Padding="20" Spacing="15">
-            <!-- Título Principal -->
-            <Label Text="Lista de Roles"
-                   FontSize="30"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="#000000" />
-            <!-- Texto en negro -->
+        <ScrollView>
+            <StackLayout Padding="20,16" Spacing="20">
+                <!-- Encabezado mejor estructurado -->
+                <Frame Style="{StaticResource CardStyle}">
+                    <StackLayout Spacing="6">
+                        <Label Text="Gestión de Roles" 
+                               Style="{StaticResource TituloPrincipal}"/>
+                        <Label Text="Administra los permisos del sistema"
+                               Style="{StaticResource Subtitulo}"/>
+                    </StackLayout>
+                </Frame>
 
-            <!-- Subtítulo -->
-            <Label Text="Revisa los roles disponibles en el sistema"
-                   FontSize="16"
-                   HorizontalOptions="Center"
-                   TextColor="#363636" />
-            <!-- Texto en gris oscuro suave -->
+                <!-- Lista de roles con mejor jerarquía -->
+                <CollectionView ItemsSource="{Binding Roles}"
+                                BackgroundColor="Transparent"
+                                SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Style="{StaticResource CardStyle}">
+                                <Grid ColumnSpacing="12" RowSpacing="4">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
 
-            <!-- Lista de Roles -->
-            <CollectionView ItemsSource="{Binding Roles}"
-                            BackgroundColor="Transparent"
-                            SelectionMode="None">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame Style="{StaticResource FrameStyle}" 
-                               BorderColor="#000000" 
-                            Padding="10"
-                               Margin="0,5">
-                            <StackLayout Orientation="Vertical" Spacing="5">
-                                <!-- Nombre del Rol -->
-                                <Label Text="{Binding Nombre}" 
-                                       FontSize="20"
-                                       FontAttributes="Bold"
-                                       TextColor="#000000" />
-                                <!-- Texto en negro -->
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <!-- Descripción del Rol -->
-                                <Label Text="{Binding Descripcion}" 
-                                       FontSize="16"
-                                       TextColor="#363636" />
-                                <!-- Texto en gris oscuro suave -->
-                            </StackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                                    <!-- Contenido principal -->
+                                    <Label Text="{Binding Nombre}"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="#2C3E50"
+                                           Grid.Column="0"
+                                           Grid.Row="0"/>
 
-            <!-- Botón para Agregar Roles -->
-            <Button Text="Agregar Rol"
-                    Clicked="OnCrearRolesClicked"
-                    Style="{StaticResource PrimaryButtonStyle}" />
-        </StackLayout>
+                                    <Label Text="{Binding Descripcion}"
+                                           FontSize="13"
+                                           TextColor="#707070"
+                                           Grid.Column="0"
+                                           Grid.Row="1"
+                                           MaxLines="2"/>
+
+                                    <!-- Sección de acciones -->
+                                    <StackLayout Grid.Column="1"
+                                                 Grid.RowSpan="2"
+                                                 VerticalOptions="Center"
+                                                 Spacing="8">
+                                        <!-- Espacio para futuros iconos -->
+                                        <BoxView WidthRequest="24" 
+                                                 HeightRequest="24"
+                                                 Color="Transparent"/>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Botón flotante moderno -->
+                <Button Text="Nuevo Rol"
+                        BackgroundColor="#4682B4"
+                        TextColor="White"
+                        FontSize="16"
+                        CornerRadius="25"
+                        HeightRequest="50"
+                        HorizontalOptions="FillAndExpand"
+                        Clicked="OnCrearRolesClicked">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#x002B;"
+                                         FontFamily="MaterialIcons"
+                                         Color="White"
+                                         Size="24"/>
+                    </Button.ImageSource>
+                   
+                </Button>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

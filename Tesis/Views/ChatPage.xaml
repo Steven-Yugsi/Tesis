@@ -1,57 +1,91 @@
 ﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"            
+             xmlns:local="clr-namespace:Tesis.Converters" 
              xmlns:vm="clr-namespace:Tesis.ViewModels"
-             x:Class="Tesis.Views.ChatPage">
+             x:Class="Tesis.Views.ChatPage"
+             Title="Chat">
 
+    <!-- Asegurar que el ViewModel se inicializa como Singleton -->
     <ContentPage.BindingContext>
         <vm:ChatViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout Padding="10">
-        <!-- Lista de mensajes -->
-        <ListView ItemsSource="{Binding Messages}" 
-                  HasUnevenRows="True" 
-                  IsPullToRefreshEnabled="True" 
-                  RefreshCommand="{Binding RefreshMessagesCommand}" 
-                  SeparatorVisibility="Default">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:MessageAlignmentConverter x:Key="MessageAlignment" />
+            <local:MessageColorConverter x:Key="MessageColor" />
+            <local:MessageAuthorColorConverter x:Key="AuthorColor" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout Padding="10" Spacing="10">
+
+        <!-- ListView mejorada con selección deshabilitada y mejor diseño -->
+        <ListView x:Name="MessagesListView"
+                  ItemsSource="{Binding Messages}"
+                  HasUnevenRows="True"
+                  SelectionMode="None"
+                  SeparatorVisibility="None"
+                  CachingStrategy="RecycleElement"
+                  BackgroundColor="Transparent">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Padding="5" Orientation="Vertical">
-                            <!-- Estilo para mensajes del usuario -->
+                        <StackLayout Padding="10"
+                                     HorizontalOptions="{Binding Role, Converter={StaticResource MessageAlignment}}">
+                            <!-- Encabezado con rol del mensaje -->
                             <Label Text="{Binding Role}" 
-                                   FontAttributes="Bold" 
-                                   TextColor="DarkSlateGray" 
-                                   HorizontalOptions="Start" />
-                            <Frame BackgroundColor="#f1f1f1" 
-                                   Padding="10" 
-                                   CornerRadius="10" 
-                                   HasShadow="True">
+                                   FontAttributes="Bold"
+                                   TextColor="{Binding Role, Converter={StaticResource AuthorColor}}"
+                                   HorizontalOptions="{Binding Role, Converter={StaticResource MessageAlignment}}"/>
+
+                            <!-- Burbuja de mensaje -->
+                            <Frame Padding="15"
+                                   CornerRadius="10"
+                                   HasShadow="False"
+                                   BackgroundColor="{Binding Role, Converter={StaticResource MessageColor}}"
+                                   HorizontalOptions="Fill">
                                 <Label Text="{Binding Content}" 
-                                       TextColor="Black" />
+                                       TextColor="Black"
+                                       FontSize="14"
+                                       LineBreakMode="WordWrap"
+                                       MaxLines="10"/>
                             </Frame>
+
+                            <!-- Fecha del mensaje -->
+                            <Label Text="{Binding Timestamp, StringFormat='{0:HH:mm}'}"
+                                   FontSize="12"
+                                   TextColor="Gray"
+                                   HorizontalOptions="{Binding Role, Converter={StaticResource MessageAlignment}}"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-        <!-- Entrada de mensaje del usuario -->
-        <Frame BackgroundColor="#f4f4f4" 
-               Padding="10" 
-               CornerRadius="20" 
-               HasShadow="True">
-            <Entry Placeholder="Escribe tu mensaje..." 
-                   Text="{Binding UserMessage}" 
-                   HorizontalTextAlignment="Start" />
-        </Frame>
+        <!-- Panel de entrada de mensajes -->
+        <Grid ColumnSpacing="10" VerticalOptions="End">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-        <!-- Botón para enviar mensaje -->
-        <Button Text="Enviar" 
-                Command="{Binding SendMessageCommand}" 
-                BackgroundColor="DodgerBlue" 
-                TextColor="White" 
-                CornerRadius="20" 
-                VerticalOptions="End" />
+            <!-- Campo de texto -->
+            <Entry Grid.Column="0"
+                   Placeholder="Escribe un mensaje..."
+                   Text="{Binding UserMessage, Mode=TwoWay}"
+                   BackgroundColor="White"
+                   ClearButtonVisibility="WhileEditing"/>
+
+            <!-- Botón de enviar -->
+            <Button Grid.Column="1"
+                    Text="Enviar"
+                    Command="{Binding SendMessageCommand}"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"
+                    CornerRadius="20"
+                    Padding="20,0"/>
+        </Grid>
+
     </StackLayout>
 </ContentPage>

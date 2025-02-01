@@ -13,7 +13,7 @@ namespace Tesis.ViewModels
     public class UserListViewModel : BaseViewModel
     {
         // Observable collection de usuarios
-        public ObservableCollection<MUsuarios> Usuarios { get; set; } = new ObservableCollection<MUsuarios>();
+        public ObservableCollection<UsuarioWrapper> Usuarios { get; set; } = new ObservableCollection<UsuarioWrapper>();
 
         // Observable collection de tipos de perfil
         private ObservableCollection<string> tiposDePerfil = new ObservableCollection<string>();
@@ -59,7 +59,7 @@ namespace Tesis.ViewModels
                             !string.IsNullOrEmpty(nuevoUsuario.Apellido) &&
                             !string.IsNullOrEmpty(nuevoUsuario.TipoPerfil))
                         {
-                            Usuarios.Add(nuevoUsuario);
+                            Usuarios.Add(new UsuarioWrapper(nuevoUsuario, this));
                         }
                     }
                 }
@@ -129,6 +129,35 @@ namespace Tesis.ViewModels
                 Console.WriteLine($"Error al actualizar el tipo de perfil: {ex.Message}");
                 await App.Current.MainPage.DisplayAlert("Error", "No se pudo actualizar el tipo de perfil.", "Aceptar");
             }
+        }
+        public class UsuarioWrapper : BaseViewModel
+        {
+            private MUsuarios _usuario;
+            private UserListViewModel _viewModel;
+
+            public UsuarioWrapper(MUsuarios usuario, UserListViewModel viewModel)
+            {
+                _usuario = usuario;
+                _viewModel = viewModel;
+            }
+
+            public string TipoPerfil
+            {
+                get => _usuario.TipoPerfil;
+                set
+                {
+                    if (_usuario.TipoPerfil != value)
+                    {
+                        _usuario.TipoPerfil = value;
+                        OnPropertyChanged();
+                        _ = _viewModel.ActualizarTipoPerfilAsync(_usuario, value); // Actualiza en Firebase
+                    }
+                }
+            }
+
+            // Propiedades adicionales para binding (NombreCompleto, Correo, etc.)
+            public string NombreCompleto => _usuario.NombreCompleto;
+            public string Correo => _usuario.Correo;
         }
     }
 }

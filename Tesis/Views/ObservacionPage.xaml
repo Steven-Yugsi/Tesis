@@ -1,0 +1,49 @@
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tesis.Views.ObservacionPage"
+             Title="Nueva Observación"
+             BackgroundColor="#ADD8E6">
+
+    <ContentPage.Content>
+        <StackLayout Padding="20" Spacing="20">
+            <Frame BackgroundColor="#FFFFFF"
+                   BorderColor="#D3D3D3"
+                   CornerRadius="10"
+                   Padding="15">
+                <StackLayout Spacing="15">
+                    <Label Text="Escriba la observación:"
+                           TextColor="#363636"
+                           FontSize="16"/>
+
+                    <Editor x:Name="EditorObservacion"
+                            Text="{Binding Observacion}"
+                            Placeholder="Ej: Se recomienda seguimiento semanal..."
+                            AutoSize="TextChanges"
+                            HeightRequest="150"
+                            TextColor="#000000"/>
+
+                    <Grid ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Text="Cancelar"
+                                Grid.Column="0"
+                                BackgroundColor="#D3D3D3"
+                                TextColor="#363636"
+                                CornerRadius="20"
+                                Command="{Binding CancelarCommand}"/>
+
+                        <Button Text="Guardar"
+                                Grid.Column="1"
+                                BackgroundColor="#ADD8E6"
+                                TextColor="#FFFFFF"
+                                CornerRadius="20"
+                                Command="{Binding GuardarCommand}"/>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

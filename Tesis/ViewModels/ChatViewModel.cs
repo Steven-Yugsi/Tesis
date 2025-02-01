@@ -1,8 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using Firebase.Auth;
+using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Tesis.Conexion;
 using Tesis.Models;
+using Xamarin.Essentials; // Necesario para acceder a SecureStorage
 using Xamarin.Forms;
 
 namespace Tesis.ViewModels
@@ -12,7 +15,7 @@ namespace Tesis.ViewModels
         private readonly ChatService _chatService;
         private string _userMessage;
         private string _assistantResponse;
-
+        public string UserId { get; set; }
 
         public ObservableCollection<MessageModel> Messages { get; set; }
 
@@ -35,6 +38,26 @@ namespace Tesis.ViewModels
             _chatService = new ChatService();
             Messages = new ObservableCollection<MessageModel>();
             SendMessageCommand = new Command(async () => await SendMessage());
+
+            // Recuperar el UserId desde el SecureStorage
+            Task.Run(async () => await GetUserId());
+        }
+
+        public async Task GetUserId()
+        {
+            // Intentar obtener el UserId almacenado de forma segura
+            var userId = await SecureStorage.GetAsync("user_id");
+
+            if (userId != null)
+            {
+                UserId = userId; // Asignar el UserId recuperado
+                Console.WriteLine($"UserId recuperado: {UserId}"); // Depuración
+            }
+            else
+            {
+                UserId = "unknown"; // Si no se encuentra el UserId
+                Console.WriteLine("UserId no encontrado, usando 'unknown'."); // Depuración
+            }
         }
 
         private async Task SendMessage()
@@ -42,40 +65,26 @@ namespace Tesis.ViewModels
             if (string.IsNullOrWhiteSpace(UserMessage))
                 return;
 
-            // Agregar el mensaje del usuario a la lista de mensajes
-            Messages.Add(new MessageModel { Role = "user", Content = UserMessage });
+            // Verificar que el UserId esté disponible
+            if (string.IsNullOrWhiteSpace(UserId))
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "No se pudo obtener el ID del usuario.", "Aceptar");
+                return;
+            }
 
-            // Enviar el mensaje al asistente
-            var response = await _chatService.SendMessageAsync(UserMessage);
+            // Agregar el mensaje del usuario a la lista de mensajes
+            Messages.Add(new MessageModel { Role = "user", Content = UserMessage, UserId = UserId });
+            Console.WriteLine($"Mensaje del usuario agregado: {UserMessage}");
+
+            // Enviar el mensaje al asistente junto con el ID del usuario
+            var response = await _chatService.SendMessageAsync(UserMessage, UserId);
+            Console.WriteLine($"Respuesta del asistente: {response}");
 
             // Agregar la respuesta del asistente a la lista de mensajes
             Messages.Add(new MessageModel { Role = "assistant", Content = response });
 
             // Limpiar el mensaje del usuario
             UserMessage = string.Empty;
-        }
-        public class Message
-        {
-            public string Content { get; set; }
-            public string Role { get; set; } // 'User' o 'System'
-
-            // Propiedad para definir la alineación
-            public LayoutOptions MessageAlignment
-            {
-                get
-                {
-                    return Role == "User" ? LayoutOptions.End : LayoutOptions.Start; // Usuario a la derecha, sistema a la izquierda
-                }
-            }
-
-            // Propiedad para definir el color de fondo
-            public Color MessageBackgroundColor
-            {
-                get
-                {
-                    return Role == "User" ? Color.LightBlue : Color.Gray; // Azul para usuario, gris para sistema
-                }
-            }
         }
     }
 }

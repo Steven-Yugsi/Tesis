@@ -58,7 +58,7 @@ namespace Tesis.ViewModels
 
         #region Métodos
 
-        public async Task LoginUsuario()
+        public async Task   LoginUsuario()
         {
             // Validación inicial de entradas
             if (string.IsNullOrWhiteSpace(txtemail) || string.IsNullOrWhiteSpace(txtclave))
@@ -114,56 +114,69 @@ namespace Tesis.ViewModels
                     await App.Current.MainPage.DisplayAlert("Error", "No se encontró información del usuario.", "Aceptar");
                     return;
                 }
-
-                // Redirigir según el TipoPerfil
-                switch (user.TipoPerfil)
+                else
                 {
-                    case "Estudiante":
-                        App.Current.MainPage = new MainFlyoutPage
-                        {
-                            Detail = new NavigationPage(new StudentPage())
-                        };
-                        break;
+                    // Redirigir según el TipoPerfil
+                    switch (user.TipoPerfil)
+                    {
+                        case "Estudiante":
+                            await SecureStorage.SetAsync("user_id", userId);
 
-                    case "Psicologo":
-                        App.Current.MainPage = new MainFlyoutPage
-                        {
-                            Detail = new NavigationPage(new PsychologistPage())
-                        };
-                        break;
+                            var storedUserId = await SecureStorage.GetAsync("user_id");
+                            Console.WriteLine($"UserId recuperado inmediatamente después de guardar: {storedUserId}");
+                            App.Current.MainPage = new MainFlyoutPage
+                            {
+                                Detail = new NavigationPage(new StudentPage())
+                            };
+                            break;
 
-                    case "Administrador":
-                        App.Current.MainPage = new MainFlyoutPage
-                        {
-                            Detail = new NavigationPage(new AdminMainPage())
-                        };
-                        break;
+                        case "Psicologo":
+                            App.Current.MainPage = new MainFlyoutPage
+                            {
+                                Detail = new NavigationPage(new PsychologistPage())
+                            };
+                            break;
 
-                    default:
-                        await App.Current.MainPage.DisplayAlert("Advertencia", "Tipo de perfil desconocido.", "Aceptar");
-                        break;
+                        case "Administrador":
+                            App.Current.MainPage = new MainFlyoutPage
+                            {
+                                Detail = new NavigationPage(new AdminMainPage())
+                            };
+                            break;
+
+                        default:
+                            await App.Current.MainPage.DisplayAlert("Advertencia", "Tipo de perfil desconocido.", "Aceptar");
+                            break;
+                    }
                 }
             }
             catch (FirebaseAuthException ex)
             {
                 string mensajeError;
-                switch (ex.Reason)
+
+                if (ex.Message.Contains("INVALID_LOGIN_CREDENTIALS"))
                 {
-                    case AuthErrorReason.WrongPassword:
-                        mensajeError = "La contraseña es incorrecta. Por favor, inténtalo de nuevo.";
-                        break;
-                    case AuthErrorReason.UnknownEmailAddress:
-                        mensajeError = "El correo electrónico no está registrado. Por favor, regístrate primero.";
-                        break;
-                    case AuthErrorReason.UserDisabled:
-                        mensajeError = "La cuenta ha sido deshabilitada. Contacta al soporte técnico.";
-                        break;
-                    case AuthErrorReason.TooManyAttemptsTryLater:
-                        mensajeError = "Se ha bloqueado temporalmente el acceso debido a demasiados intentos fallidos. Intenta más tarde.";
-                        break;
-                    default:
-                        mensajeError = $"Error de autenticación: {ex.Message}";
-                        break;
+                    mensajeError = "Correo o contraseña incorrectos. Por favor, verifica tus datos e inténtalo de nuevo.";
+                }
+                else if (ex.Reason == AuthErrorReason.WrongPassword)
+                {
+                    mensajeError = "La contraseña es incorrecta. Por favor, inténtalo de nuevo.";
+                }
+                else if (ex.Reason == AuthErrorReason.UnknownEmailAddress)
+                {
+                    mensajeError = "El correo electrónico no está registrado. Verifica tu correo o regístrate primero.";
+                }
+                else if (ex.Reason == AuthErrorReason.UserDisabled)
+                {
+                    mensajeError = "Tu cuenta ha sido deshabilitada. Contacta al soporte.";
+                }
+                else if (ex.Reason == AuthErrorReason.TooManyAttemptsTryLater)
+                {
+                    mensajeError = "Demasiados intentos fallidos. Intenta de nuevo más tarde.";
+                }
+                else
+                {
+                    mensajeError = $"Error de autenticación: {ex.Message}";
                 }
 
                 await App.Current.MainPage.DisplayAlert("Error de inicio de sesión", mensajeError, "Aceptar");

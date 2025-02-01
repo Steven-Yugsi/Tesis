@@ -4,87 +4,92 @@
              BackgroundColor="#ADD8E6">
     <!-- Fondo: Azul celeste pastel -->
 
-    <StackLayout VerticalOptions="Center" Padding="20" Spacing="30">
-        <!-- Imagen destacada o logo -->
-        <Image Source="logo_3.jpg"
-               HeightRequest="100"
-               HorizontalOptions="Center" />
+    <Grid RowDefinitions="*, Auto">
+        <!-- Contenido principal -->
+        <StackLayout VerticalOptions="CenterAndExpand" Padding="20" Spacing="30" Grid.Row="0">
+            <!-- Imagen destacada o logo -->
+            <Image Source="logo_3.jpg"
+                   HeightRequest="100"
+                   HorizontalOptions="Center" />
 
-        <!-- Título -->
-        <Label Text="¡Bienvenido!"
-               Style="{StaticResource LabelStyle}"
-               FontSize="28"
-               TextColor="#000000" />
-        <!-- Texto: Negro -->
+            <!-- Título -->
+            <Label Text="¡Bienvenido!"
+                   Style="{StaticResource LabelStyle}"
+                   FontSize="28"
+                   TextColor="#000000" />
+            <!-- Texto: Negro -->
 
-        <!-- Campo de correo (usuario) -->
-        <Frame Style="{StaticResource FrameStyle}"
-               BackgroundColor="#FFFFFF"
-               BorderColor="#D3D3D3"
-               HasShadow="True">
-            <!-- Sombra añadida -->
-            <StackLayout Padding="10" Orientation="Horizontal" Spacing="15">
-                <Image Source="icon_user.png" WidthRequest="30" HeightRequest="30" />
-                <Entry x:Name="txtemail" Text="{Binding txtemail}"
-                       Placeholder="Usuario"
-                       Style="{StaticResource EntryStyle}"
-                       TextColor="#363636"
-                       PlaceholderColor="#D3D3D3"
-                       HorizontalOptions="FillAndExpand" />
-            </StackLayout>
-        </Frame>
+            <!-- Campo de correo (usuario) -->
+            <Frame Style="{StaticResource FrameStyle}"
+                   BackgroundColor="#FFFFFF"
+                   BorderColor="#D3D3D3"
+                   HasShadow="True">
+                <StackLayout Padding="10" Orientation="Horizontal" Spacing="15">
+                    <Image Source="icon_user.png" WidthRequest="30" HeightRequest="30" />
+                    <Entry x:Name="txtemail" Text="{Binding txtemail}"
+                           Placeholder="Usuario"
+                           Style="{StaticResource EntryStyle}"
+                           TextColor="#363636"
+                           PlaceholderColor="#D3D3D3"
+                           HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+            </Frame>
 
-        <!-- Campo de contraseña -->
-        <Frame Style="{StaticResource FrameStyle}"
-               BackgroundColor="#FFFFFF"
-               BorderColor="#D3D3D3"
-               HasShadow="True">
-            <!-- Sombra añadida -->
-            <StackLayout Padding="10" Orientation="Horizontal" Spacing="15">
-                <Image Source="icon_lock.png" WidthRequest="30" HeightRequest="30" />
-                <Entry x:Name="txtclave" Text="{Binding txtclave}"
-                       Placeholder="Contraseña"
-                       IsPassword="{Binding IsPasswordVisible}"
-                       Style="{StaticResource EntryStyle}"
-                       TextColor="#363636"
-                       PlaceholderColor="#D3D3D3"
-                       HorizontalOptions="FillAndExpand" />
-                <ImageButton Source="{Binding EyeIcon}"
-                             Command="{Binding TogglePasswordVisibilityCommand}"
-                             BackgroundColor="Transparent"
-                             WidthRequest="30"
-                             HeightRequest="30"
-                             Padding="0"
-                             HorizontalOptions="End" />
-            </StackLayout>
-        </Frame>
+            <!-- Campo de contraseña -->
+            <Frame Style="{StaticResource FrameStyle}"
+                   BackgroundColor="#FFFFFF"
+                   BorderColor="#D3D3D3"
+                   HasShadow="True">
+                <StackLayout Padding="10" Orientation="Horizontal" Spacing="15">
+                    <Image Source="icon_lock.png" WidthRequest="30" HeightRequest="30" />
+                    <Entry x:Name="txtclave" Text="{Binding txtclave}"
+                           Placeholder="Contraseña"
+                           IsPassword="{Binding IsPasswordVisible}"
+                           Style="{StaticResource EntryStyle}"
+                           TextColor="#363636"
+                           PlaceholderColor="#D3D3D3"
+                           HorizontalOptions="FillAndExpand" />
+                    <ImageButton Source="{Binding EyeIcon}"
+                                 Command="{Binding TogglePasswordVisibilityCommand}"
+                                 BackgroundColor="Transparent"
+                                 WidthRequest="30"
+                                 HeightRequest="30"
+                                 Padding="0"
+                                 HorizontalOptions="End" />
+                </StackLayout>
+            </Frame>
 
-        <!-- Botón de Entrar -->
-        <Frame Padding="0"
-               CornerRadius="25"
-               HasShadow="True">
-            <!-- Botón con sombra -->
-            <Button Text="Entrar"
-                    FontSize="18"
-                    TextColor="#FFFFFF"
-                    BackgroundColor="#000000"
-                    Command="{Binding LoginCommand}" />
-        </Frame>
+            <!-- Botón de Entrar -->
+            <Frame Padding="0"
+                   CornerRadius="25"
+                   HasShadow="True">
+                <Button Text="Entrar"
+                        FontSize="18"
+                        TextColor="#FFFFFF"
+                        BackgroundColor="#000000"
+                        Command="{Binding LoginCommand}" />
+            </Frame>
 
-        <!-- Enlace para Olvidaste tu contraseña -->
-        <Button Text="¿Olvidaste tu contraseña?"
-                BackgroundColor="Transparent"
-                TextColor="#000000"
-                FontSize="16"
-                Command="{Binding ForgotPasswordCommand}"
-                HorizontalOptions="Center" />
+            <!-- Enlaces -->
+            <Button Text="¿Olvidaste tu contraseña?"
+                    BackgroundColor="Transparent"
+                    TextColor="#000000"
+                    FontSize="16"
+                    Command="{Binding ForgotPasswordCommand}"
+                    HorizontalOptions="Center" />
 
-        <!-- Enlace para Registrarse -->
-        <Button Text="Crear cuenta"
-                BackgroundColor="Transparent"
-                TextColor="#000000"
-                FontSize="16"
-                HorizontalOptions="Center"
-                Command="{Binding RegisterCommand}" />
-    </StackLayout>
+            <Button Text="Crear cuenta"
+                    BackgroundColor="Transparent"
+                    TextColor="#000000"
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    Command="{Binding RegisterCommand}" />
+        </StackLayout>
+
+        <!-- Footer -->
+        <StackLayout Grid.Row="1" Padding="10" HorizontalOptions="Center">
+            <Image Source="itq.png" WidthRequest="50" HeightRequest="50" HorizontalOptions="Center" />
+            <Label Text="BY ITQ" FontSize="14" TextColor="#000000" HorizontalOptions="Center" />
+        </StackLayout>
+    </Grid>
 </ContentPage>
