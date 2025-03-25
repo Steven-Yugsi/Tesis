@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Tesis.Conexion;
 using Tesis.Models;
-using Xamarin.Essentials; // Necesario para acceder a SecureStorage
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Tesis.ViewModels
@@ -14,7 +14,7 @@ namespace Tesis.ViewModels
     {
         private readonly ChatService _chatService;
         private string _userMessage;
-        private string _assistantResponse;
+        private bool _isBusy;
         public string UserId { get; set; }
 
         public ObservableCollection<MessageModel> Messages { get; set; }
@@ -22,25 +22,29 @@ namespace Tesis.ViewModels
         public string UserMessage
         {
             get => _userMessage;
-            set => SetValue(ref _userMessage, value);
+            set
+            {
+                SetValue(ref _userMessage, value);
+                // Actualizar disponibilidad del botón
+                (SendMessageCommand as Command)?.ChangeCanExecute();
+            }
         }
 
-        public string AssistantResponse
-        {
-            get => _assistantResponse;
-            set => SetValue(ref _assistantResponse, value);
-        }
-
+        
         public ICommand SendMessageCommand { get; }
 
         public ChatViewModel()
         {
             _chatService = new ChatService();
             Messages = new ObservableCollection<MessageModel>();
-            SendMessageCommand = new Command(async () => await SendMessage());
+            SendMessageCommand = new Command(async () => await SendMessage(), () => CanExecuteSendMessage());
 
             // Recuperar el UserId desde el SecureStorage
             Task.Run(async () => await GetUserId());
+        }
+        private bool CanExecuteSendMessage()
+        {
+            return !string.IsNullOrWhiteSpace(UserMessage?.Trim());
         }
 
         public async Task GetUserId()
@@ -62,29 +66,53 @@ namespace Tesis.ViewModels
 
         private async Task SendMessage()
         {
+            // Evitar múltiples ejecuciones simultáneas
+            if (_isBusy || !CanExecuteSendMessage()) // Doble validación
+                return;
+            _isBusy = true;
+
+
             if (string.IsNullOrWhiteSpace(UserMessage))
                 return;
 
-            // Verificar que el UserId esté disponible
+            // Verificar UserId
             if (string.IsNullOrWhiteSpace(UserId))
             {
                 await App.Current.MainPage.DisplayAlert("Error", "No se pudo obtener el ID del usuario.", "Aceptar");
                 return;
             }
 
-            // Agregar el mensaje del usuario a la lista de mensajes
-            Messages.Add(new MessageModel { Role = "user", Content = UserMessage, UserId = UserId });
-            Console.WriteLine($"Mensaje del usuario agregado: {UserMessage}");
+            _isBusy = true;
 
-            // Enviar el mensaje al asistente junto con el ID del usuario
-            var response = await _chatService.SendMessageAsync(UserMessage, UserId);
-            Console.WriteLine($"Respuesta del asistente: {response}");
+            try
+            {
+                // Agregar y limpiar mensaje INMEDIATAMENTE
+                var userMessage = UserMessage;
+                Messages.Add(new MessageModel
+                {
+                    Role = "user",
+                    Content = userMessage,
+                    UserId = UserId
+                });
 
-            // Agregar la respuesta del asistente a la lista de mensajes
-            Messages.Add(new MessageModel { Role = "assistant", Content = response });
+                UserMessage = string.Empty; // Limpiar cuadro de texto aquí
+                Console.WriteLine($"Mensaje del usuario agregado: {userMessage}");
 
-            // Limpiar el mensaje del usuario
-            UserMessage = string.Empty;
+                // Obtener respuesta
+                var response = await _chatService.SendMessageAsync(userMessage, UserId);
+                Console.WriteLine($"Respuesta del asistente: {response}");
+
+                Messages.Add(new MessageModel
+                {
+                    Role = "assistant",
+                    Content = response
+                });
+            }
+            finally
+            {
+                _isBusy = false; // Siempre liberar el bloqueo
+            }
         }
+
     }
 }

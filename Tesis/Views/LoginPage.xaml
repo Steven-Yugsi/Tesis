@@ -2,12 +2,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tesis.LoginPage"
              BackgroundColor="#ADD8E6">
-    <!-- Fondo: Azul celeste pastel -->
 
     <Grid RowDefinitions="*, Auto">
-        <!-- Contenido principal -->
+      
         <StackLayout VerticalOptions="CenterAndExpand" Padding="20" Spacing="30" Grid.Row="0">
-            <!-- Imagen destacada o logo -->
+          <!-- Contenido principal   
+            <ActivityIndicator x:Name="activityIndicator"
+                               IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               Color="#000000"
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"
+                               WidthRequest="100"
+                               HeightRequest="100"/>
+       -->
             <Image Source="logo_3.jpg"
                    HeightRequest="100"
                    HorizontalOptions="Center" />
@@ -91,5 +99,6 @@
             <Image Source="itq.png" WidthRequest="50" HeightRequest="50" HorizontalOptions="Center" />
             <Label Text="BY ITQ" FontSize="14" TextColor="#000000" HorizontalOptions="Center" />
         </StackLayout>
+
     </Grid>
 </ContentPage>

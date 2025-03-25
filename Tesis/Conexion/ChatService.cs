@@ -9,7 +9,7 @@ namespace Tesis.Conexion
 {
     public class ChatService
     {
-        private readonly string apiUrl = "https://servicios.hostsbeast.com/chat"; // Cambia esto si tu API Flask está en un servidor remoto
+        private readonly string apiUrl = "https://deteccion-2c411.uc.r.appspot.com/chat"; // Cambia esto si tu API Flask está en un servidor remoto
 
         public async Task<string> SendMessageAsync(string userMessage, string userId)
         {

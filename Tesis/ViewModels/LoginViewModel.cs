@@ -17,11 +17,21 @@ namespace Tesis.ViewModels
         #region Atributos
         private string email;
         private string clave;
-        private bool isPasswordVisible;  // Nueva propiedad para la visibilidad de la contraseña
-        private string eyeIcon;  // Nueva propiedad para el ícono del ojo
+        private bool isPasswordVisible; 
+        private string eyeIcon;
+        private bool _isBusy;
+
         #endregion
 
         #region Propiedades
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set {
+                _isBusy = value;
+                OnPropertyChanged(nameof(IsBusy));
+            }
+        }
         public string txtemail
         {
             get { return email; }
@@ -54,15 +64,18 @@ namespace Tesis.ViewModels
         public Command RegisterCommand { get; }
         public Command ForgotPasswordCommand { get; }
         public Command TogglePasswordVisibilityCommand { get; }  // Nuevo comando para alternar la visibilidad de la contraseña
+     
         #endregion
 
         #region Métodos
 
         public async Task   LoginUsuario()
         {
-            // Validación inicial de entradas
+            IsBusy = true;
+
             if (string.IsNullOrWhiteSpace(txtemail) || string.IsNullOrWhiteSpace(txtclave))
             {
+                IsBusy = false;
                 await App.Current.MainPage.DisplayAlert("Advertencia", "Por favor ingresa tu correo y contraseña.", "Aceptar");
                 return;
             }
@@ -70,6 +83,7 @@ namespace Tesis.ViewModels
             string emailPattern = @"^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,4}$";
             if (!Regex.IsMatch(txtemail, emailPattern))
             {
+                IsBusy = false;
                 await App.Current.MainPage.DisplayAlert("Advertencia", "El formato del correo electrónico es inválido. Asegúrate de ingresarlo correctamente.", "Aceptar");
                 return;
             }
@@ -91,6 +105,7 @@ namespace Tesis.ViewModels
                 // Verificar si el correo está verificado
                 if (!authuser.User.IsEmailVerified)
                 {
+                    IsBusy = false;
                     await App.Current.MainPage.DisplayAlert(
                         "Cuenta no verificada",
                         "Por favor verifica tu correo antes de iniciar sesión.",
@@ -111,6 +126,7 @@ namespace Tesis.ViewModels
 
                 if (user == null)
                 {
+                    IsBusy = false;
                     await App.Current.MainPage.DisplayAlert("Error", "No se encontró información del usuario.", "Aceptar");
                     return;
                 }
@@ -124,10 +140,13 @@ namespace Tesis.ViewModels
 
                             var storedUserId = await SecureStorage.GetAsync("user_id");
                             Console.WriteLine($"UserId recuperado inmediatamente después de guardar: {storedUserId}");
-                            App.Current.MainPage = new MainFlyoutPage
+                            Device.BeginInvokeOnMainThread(() =>
                             {
-                                Detail = new NavigationPage(new StudentPage())
-                            };
+                                App.Current.MainPage = new MainFlyoutPage
+                                {
+                                    Detail = new NavigationPage(new StudentPage()) // Asegúrate de usar NavigationPage aquí también
+                                };
+                            });
                             break;
 
                         case "Psicologo":
@@ -145,6 +164,7 @@ namespace Tesis.ViewModels
                             break;
 
                         default:
+                            IsBusy = false;
                             await App.Current.MainPage.DisplayAlert("Advertencia", "Tipo de perfil desconocido.", "Aceptar");
                             break;
                     }
@@ -152,6 +172,7 @@ namespace Tesis.ViewModels
             }
             catch (FirebaseAuthException ex)
             {
+                IsBusy = false;
                 string mensajeError;
 
                 if (ex.Message.Contains("INVALID_LOGIN_CREDENTIALS"))
@@ -183,6 +204,7 @@ namespace Tesis.ViewModels
             }
             catch (Exception ex)
             {
+                IsBusy = false;
                 // Manejo de errores desconocidos
                 await App.Current.MainPage.DisplayAlert("Advertencia", $"Error desconocido: {ex.Message}", "Aceptar");
             }
@@ -210,7 +232,14 @@ namespace Tesis.ViewModels
 
         private async Task GoToRegisterPage()
         {
-            await Navigation.PushAsync(new RegisterPage());
+            if (Navigation != null)
+            {
+                await Navigation.PushAsync(new RegisterPage());
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "No se puede navegar.", "OK");
+            }
         }
 
         // Método para alternar la visibilidad de la contraseña

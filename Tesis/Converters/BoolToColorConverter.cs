@@ -4,15 +4,19 @@ using Xamarin.Forms;
 
 namespace Tesis.Converters
 {
-    public class MessageAlignmentConverter : IValueConverter
+    public class BoolToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is string role)
+            if (value is bool isNotBusy && parameter is string colors)
             {
-                return role == "user" ? LayoutOptions.EndAndExpand : LayoutOptions.StartAndExpand;
+                string[] colorArray = colors.Split(';');
+                if (colorArray.Length == 2)
+                {
+                    return isNotBusy ? Color.FromHex(colorArray[0]) : Color.FromHex(colorArray[1]);
+                }
             }
-            return LayoutOptions.StartAndExpand;
+            return Color.Default;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

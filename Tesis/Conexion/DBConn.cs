@@ -19,7 +19,7 @@ namespace Tesis.Conexion
         public static FirebaseStorage firebaseStorage = new FirebaseStorage("deteccion-2c411.firebasestorage.app",
          new FirebaseStorageOptions
          {
-             ThrowOnCancel = true // Para manejar errores de cancelación
+             ThrowOnCancel = true
          });
     }
 
